@@ -1,0 +1,106 @@
+/* * SELECTORS */
+/* selector: {
+    property: value
+} */
+
+/* * Universal Selector */
+/*
+    * {
+        color: orange;
+    }
+*/
+
+
+/* TODO: First things first. You need to add this file to the index.html. In order to do so, copy the following line (line 16) inside the <head> tag in the html file */
+
+/* <link rel="stylesheet" href="./style.css"> */
+
+
+/* * Type/Element Selector */
+
+/* --- EXAMPLE ---
+
+selector1 selector2 {
+    color: blue
+}
+
+------------------
+*/
+
+
+/* TODO: Set all the <p> elements a black color and size of 16px */
+
+/* TODO: Set all the <hr> elements a border top with of 1px, border top style of dashed, and border top color b1e5f2 in HEX   */
+
+
+/* * ID Selector */
+
+/* TODO: Create a id called "deal-of-the-week" and set a background color to "lightsalmon" and color to "darkred" */
+
+
+/* * Class Selector */
+/* TODO: Target the class called "deal-of-the-day", set a background color to "lightblue" and color to "blue" */
+
+/* TODO: Target the class called "container", set display to "flex" and flex direction to row */
+
+/* TODO: Target the class called "container-item", set display to "flex" and flex direction to row and add a padding of 10px  */
+
+/* TODO: Target the class called "menu-square", set a with of 10px and a margin left of 10px  */
+
+/* TODO: Target the class called "week-background", set background color to lightsalmon */
+
+/* TODO: Target the class called "day-background", set background color to lightblue */
+
+
+/* * Descendant Selector */
+
+/* --- EXAMPLE ---
+
+selector1 selector2 {
+    color: blue
+}
+
+------------------
+*/
+
+
+/* TODO: Target all the list items ("li") inside an ordered list ("ol"), and set their colors to black, letter spacing of 3px, line-height og 20px, margin top of 5px and font size of 16px */
+
+
+/* * Even More Specific Descendant Selector */
+
+/* You can combine all the types of selector you have learned to be even more specific.
+
+--- EXAMPLE ---
+
+section ol #deal-of-the-week {
+    background-color: orange
+}
+
+------------------
+*/
+
+/* TODO: Target the only h2 inside the id "alert" that is inside the "footer", and set the background color to yellow. */
+
+
+
+/* * Pseudo Classes */
+/* Pseudo Classes allow us to define a special state of a element */
+
+/* --- EXAMPLE mouse over link ---
+
+ul a:hover {
+    color: #FF00FF;
+  }
+
+------------------ */
+
+/* TODO: Add a ":hover" to all the list items ("li") inside an ordered list ("ol"), and set their background color to lime */
+
+
+/* * ---------------- */
+
+
+
+
+

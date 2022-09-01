@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML SPK Demo</title>
+    <title>CSS SPK Demo</title>
 </head>
 <body>
     <main>
         <header>
-            <h1>Welcome to our Favorite foods 🥦 🌮 🍖 </h1>
+            <h1>Welcome to our Favorite foods 🍕 🦌️ 🌮️ 🍗️ 🐻️ 🍲 🥟️ 🍣 🥩</h1>
             <hr>
-            <div>
-                <div>
+            <div class="container">
+                <div class="container-item">
                     <p>Deal of the day</p>
+                    <div class="menu-square day-background"></div>
                 </div>
-                <div>
+                <div class="container-item">
                     <p>Deal of the week</p>
+                    <div class="menu-square week-background"></div>
                 </div>
             </div>
         </header>
         <hr>
         <section>
             <ol>
-                <h1>Welcome to HTML/CSS SPK Demo</h1>
-                <li>Broccoli</li>
-                <li>Taco</li>
-                <li>Meat</li>
+                <li id="deal-of-the-week">Broccoli</li>
+                <li class="deal-of-the-day">Taco</li>
+                <li class="day-background">Black Beans Burritos</li>
+                <li class="week-background">Tandoorikylling</li>
+                <li class="day-background">Black Beans Burritos</li>
             </ol>
-        </section>
+        </section>git push --set-upstream origin 1-html-demo-end
         <hr>
         <footer>
             <h1>Contributors 💚</h1>
@@ -40,10 +43,13 @@
                 <li>Arne</li>
             </ul>
             <hr>
-            <div>
+            <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
+            <h2>🤖️ End of Demo 2 🤖️ </h2>
+
         </footer>
     </main>
+
 </body>
 </html>
