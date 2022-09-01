@@ -4,103 +4,79 @@
 } */
 
 /* * Universal Selector */
-/*
-    * {
-        color: orange;
-    }
-*/
-
-
-/* TODO: First things first. You need to add this file to the index.html. In order to do so, copy the following line (line 16) inside the <head> tag in the html file */
-
-/* <link rel="stylesheet" href="./style.css"> */
-
+/* * {
+    color: orange;
+} */
 
 /* * Type/Element Selector */
-
-/* --- EXAMPLE ---
-
-selector1 selector2 {
-    color: blue
+p {
+    color: black;
+    font-size: 16px;
 }
 
-------------------
-*/
-
-
-/* TODO: Set all the <p> elements a black color and size of 16px */
-
-/* TODO: Set all the <hr> elements a border top with of 1px, border top style of dashed, and border top color b1e5f2 in HEX   */
+hr {
+    border-top: 1px dashed #b1e5f2;
+  }
 
 
 /* * ID Selector */
-
-/* TODO: Create a id called "deal-of-the-week" and set a background color to "lightsalmon" and color to "darkred" */
+#deal-of-the-week {
+    background-color: lightsalmon;
+    color: darkred;
+}
 
 
 /* * Class Selector */
-/* TODO: Target the class called "deal-of-the-day", set a background color to "lightblue" and color to "blue" */
+.deal-of-the-day {
+    background-color: lightblue;
+    color: blue;
+}
 
-/* TODO: Target the class called "container", set display to "flex" and flex direction to row */
+.container {
+    display: flex;
+    flex-direction: row;
+}
 
-/* TODO: Target the class called "container-item", set display to "flex" and flex direction to row and add a padding of 10px  */
+.container-item {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
 
-/* TODO: Target the class called "menu-square", set a with of 10px and a margin left of 10px  */
+.menu-square {
+    width: 10px; margin-left: 10px;
+}
 
-/* TODO: Target the class called "week-background", set background color to lightsalmon */
+.week-background {
+    background-color: lightsalmon;
+}
 
-/* TODO: Target the class called "day-background", set background color to lightblue */
+.day-background {
+    background-color: lightblue
+}
 
 
 /* * Descendant Selector */
-
-/* --- EXAMPLE ---
-
-selector1 selector2 {
-    color: blue
+ol li  {
+    color: black;
+    letter-spacing: 3px;
+    line-height: 20px;
+    margin-top: 5px;
+    font-size: 16px;
 }
-
-------------------
-*/
-
-
-/* TODO: Target all the list items ("li") inside an ordered list ("ol"), and set their colors to black, letter spacing of 3px, line-height og 20px, margin top of 5px and font size of 16px */
 
 
 /* * Even More Specific Descendant Selector */
-
-/* You can combine all the types of selector you have learned to be even more specific.
-
---- EXAMPLE ---
-
-section ol #deal-of-the-week {
-    background-color: orange
+footer #alert h2 {
+    background-color: lightyellow;
 }
-
-------------------
-*/
-
-/* TODO: Target the only h2 inside the id "alert" that is inside the "footer", and set the background color to yellow. */
-
 
 
 /* * Pseudo Classes */
-/* Pseudo Classes allow us to define a special state of a element */
-
-/* --- EXAMPLE mouse over link ---
-
-ul a:hover {
-    color: #FF00FF;
-  }
-
------------------- */
-
-/* TODO: Add a ":hover" to all the list items ("li") inside an ordered list ("ol"), and set their background color to lime */
-
+ol li:hover {
+    background-color: lime;
+}
 
 /* * ---------------- */
-
-
-
 
 
