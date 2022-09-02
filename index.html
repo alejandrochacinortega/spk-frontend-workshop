@@ -1,57 +1,50 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS SPK Demo</title>
-    <link rel="stylesheet" href="./style.css">
+    <style>
+        .color-box {
+          background-color: limegreen;
+          width: 100px;
+          height: 100px;
+        }
+      </style>
+    <title>Velkommen til Frontend Del II</title>
+	<h1>Open your console (ctrl + shift + i )</h1>
 </head>
 <body>
-    <main>
-        <header>
-            <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
-            <hr>
-            <div class="container">
-                <div class="container-item">
-                    <p>Deal of the day</p>
-                    <div class="menu-square day-background"></div>
-                </div>
-                <div class="container-item">
-                    <p>Deal of the week</p>
-                    <div class="menu-square week-background"></div>
-                </div>
-            </div>
-        </header>
-        <hr>
-        <section>
-            <ol>
-                <li id="deal-of-the-week">Broccoli</li>
-                <li class="deal-of-the-day">Taco</li>
-                <li class="day-background">Pabellon Criollo</li>
-                <li class="week-background">Tandoorikylling</li>
-                <li class="day-background">Meat</li>
-            </ol>
-        </section>
-        <hr>
-        <footer>
-            <h1>Contributors 💚</h1>
-            <ul>
-                <li>Emilie</li>
-                <li>Henrik</li>
-                <li>Kristian</li>
-                <li>Halil</li>
-                <li>Hamse</li>
-                <li>Arne</li>
-                <li>Alejandro</li>
-            </ul>
-            <hr>
-            <div id="alert">
-                <h2>😋 Our restaurant needs more dishes 😋 </h2>
-            </div>
-            <h2>🤖️ End of Demo 2 🤖️ </h2>
 
-        </footer>
-    </main>
+    <script>
+		// TASK: Given 5 books, create a function that checks if a book does not contain the word "the"
+		// and push it to a favorite books array.
+
+		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+		console.log("WELCOME TO DEMO #4 - You've come a long way! ")
+		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+
+		var favoriteBooks = [];
+
+        // TODO 1: define addFavoriteBook(..) function that receives a single parameter called "bookName"
+		// hint: This function checks if a book does not contain the word "the"
+		// and push it to a favorite books array.
+		// another hint: You can use console.log("WHATEVER YOU WANT TO SEE") to print
+		// on the browser. For instance, console.log(favoriteBooks) prints your favorite books.
+
+		// TODO 2: define printFavoriteBooks() function that receives no parameters
+		// hint: This function prints only the favorite books
+		// hint: Use the "for { let ... of ... } loop"
+
+		addFavoriteBook("The Girl with the Dragon Tattoo");
+		addFavoriteBook("Beatles");
+		addFavoriteBook("Snowman");
+		addFavoriteBook("The Da Vinci Code");
+		addFavoriteBook("Emotional Intelligence");
+
+		// TODO 3: Call printFavoriteBooks function
+
+
+    </script>
 
 </body>
 </html>
