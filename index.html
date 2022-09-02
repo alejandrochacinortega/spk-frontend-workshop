@@ -11,29 +11,31 @@
         }
       </style>
     <title>Velkommen til Frontend Del II</title>
-	<h1>Open your console (ctrl + shift + i )</h1>
 </head>
 <body>
-
+	<h1>Open your console (ctrl + shift + i )</h1>
     <script>
 		// TASK: Given 5 books, create a function that checks if a book does not contain the word "the"
 		// and push it to a favorite books array.
 
-		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
-		console.log("WELCOME TO DEMO #4 - You've come a long way! ")
-		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
-
 		var favoriteBooks = [];
 
-        // TODO 1: define addFavoriteBook(..) function that receives a single parameter called "bookName"
-		// hint: This function checks if a book does not contain the word "the"
-		// and push it to a favorite books array.
-		// another hint: You can use console.log("WHATEVER YOU WANT TO SEE") to print
-		// on the browser. For instance, console.log(favoriteBooks) prints your favorite books.
+        // TODO 1: define addFavoriteBook(..) function
+		const addFavoriteBook = (bookName) => {
+			if (!bookName.includes("The")) {
+				favoriteBooks.push(bookName);
+			}
+		};
 
-		// TODO 2: define printFavoriteBooks() function that receives no parameters
+		// TODO 2: define printFavoriteBooks() function
 		// hint: This function prints only the favorite books
-		// hint: Use the "for { let ... of ... } loop"
+		const printFavoriteBooks = () => {
+			console.log("Favorite Books: ")
+			for (let bookName of favoriteBooks) {
+				console.log(bookName);
+			}
+		};
+
 
 		addFavoriteBook("The Girl with the Dragon Tattoo");
 		addFavoriteBook("Beatles");
@@ -42,7 +44,7 @@
 		addFavoriteBook("Emotional Intelligence");
 
 		// TODO 3: Call printFavoriteBooks function
-
+		printFavoriteBooks();
 
     </script>
 
