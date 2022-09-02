@@ -13,38 +13,26 @@
     <title>Velkommen til Frontend Del II</title>
 </head>
 <body>
-	<h1>Open your console (ctrl + shift + i )</h1>
+    <!-- TODO 1: Create a "div" with a class called "color-box" -->
+    <!-- TODO 2: Create a "input" with a class called "color-input" -->
+    <!-- TODO OPTIONAL 2.a: Add a "placeholder" attribute to the "input". Placeholder must be "Type a color" -->
+    <!-- TODO 3: Create a "button" with a class called "submit-button" -->
+
     <script>
-		// TASK: Given 5 books, create a function that checks if a book does not contain the word "the"
-		// and push it to a favorite books array.
+		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+		console.log("WELCOME TO DEMO #5 - You've come a long way! ")
+		console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+		// TODO 4: Create a const called "input" that uses the DOM to get element with the class ".color-input"
+		// TODO 5: Create a const called "paragraph" that uses the DOM to get element with the class ".color-box"
+		// TODO 5: Create a const called "button" that uses the DOM to get element with the class ".submit-button"
 
-		var favoriteBooks = [];
+		// Now that you have "glued" the HTML with JavaScript code, you can now go ahead events.
 
-        // TODO 1: define addFavoriteBook(..) function
-		const addFavoriteBook = (bookName) => {
-			if (!bookName.includes("The")) {
-				favoriteBooks.push(bookName);
-			}
-		};
+		// TODO 6: Use the "change" event listener on the input element to set the paragraph´s background color to the input value
+		// hint: Take a look how to use the click event ➡️ https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event
+		// hint: Use the console log to the how both "paragraph" and "input" look like.
 
-		// TODO 2: define printFavoriteBooks() function
-		// hint: This function prints only the favorite books
-		const printFavoriteBooks = () => {
-			console.log("Favorite Books: ")
-			for (let bookName of favoriteBooks) {
-				console.log(bookName);
-			}
-		};
-
-
-		addFavoriteBook("The Girl with the Dragon Tattoo");
-		addFavoriteBook("Beatles");
-		addFavoriteBook("Snowman");
-		addFavoriteBook("The Da Vinci Code");
-		addFavoriteBook("Emotional Intelligence");
-
-		// TODO 3: Call printFavoriteBooks function
-		printFavoriteBooks();
+		// TODO 6: Use the "click" event listener on the button element to set the paragraph´s background color to the input value
 
     </script>
 
