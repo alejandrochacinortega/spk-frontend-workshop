@@ -25,12 +25,14 @@
 		const paragraph = document.querySelector(".color-box");
 		const button = document.querySelector(".submit-button");
 
+		let color = ""
+
 		input.addEventListener("change", function () {
-			paragraph.style.backgroundColor = input.value;
+			color = input.value;
 		});
 
 		button.addEventListener("click", function () {
-			paragraph.style.backgroundColor = input.value;
+			paragraph.style.backgroundColor = color;
 		});
     </script>
 </body>
