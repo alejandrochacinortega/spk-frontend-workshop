@@ -1,9 +1,9 @@
-# Spk Frontend Workshop 2022
+# Spk Frontend Workshop 2024
 
 HTML/CSS SPK Demo 🔥
 
 ## Getting started 🔨
-
+- Gå tå first demo:  `git checkout 1-html-demo-start`
 - Open `index.html` in the browser
 
 ### Development Environment and Architecture 🧰
