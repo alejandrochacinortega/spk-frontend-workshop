@@ -2,6 +2,8 @@
 
 console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
 console.log("WELCOME TO DEMO #6 - You've come a long way! ")
+console.log("Your task is to make use of map(), filter() and find() to solve the tasks described further down.")
+
 console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
 
 const data = [
