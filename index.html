@@ -13,7 +13,6 @@
     <title>Velkommen til Frontend Del II</title>
 	<h1>Open your console (ctrl + shift + i )</h1>
 </head>
-<body>
 
     <script>
 		// TASK: Given 5 books, create a function that checks if a book does not contain the word "the"
@@ -32,9 +31,22 @@
 		// on the browser. For instance, console.log(favoriteBooks) prints your favorite books.
 		// Resources: This is how you create a function in Javascript https://www.w3schools.com/js/js_function_definition.asp
 
+		function addFavoriteBook(bookName) {
+			if (!bookName.includes("The")) {
+				favoriteBooks.push(bookName)
+			}
+		}
+
+	
 		// TODO 2: define printFavoriteBooks() function that receives no parameters
 		// hint: This function prints only the favorite books
 		// hint: Use the "for { let ... of ... } loop -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of"
+		
+		function printFavoriteBooks() {
+			for (let book of favoriteBooks) {
+				console.log(book);
+			}
+		}
 
 		addFavoriteBook("The Girl with the Dragon Tattoo");
 		addFavoriteBook("Beatles");
@@ -42,8 +54,9 @@
 		addFavoriteBook("The Da Vinci Code");
 		addFavoriteBook("Emotional Intelligence");
 
+		
 		// TODO 3: Call printFavoriteBooks function
-
+		printFavoriteBooks()
 
     </script>
 
