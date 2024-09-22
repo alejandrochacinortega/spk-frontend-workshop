@@ -1,4 +1,5 @@
 "use strict";
+console.log("WELCOME TO DEMO #3");
 // Data
 var data = [
     {
@@ -322,43 +323,31 @@ var data = [
         "favoriteFruit": "strawberry"
     }
 ];
-console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥");
-console.log("WELCOME TO DEMO #6 - You've come a long way! ");
-console.log("Your task is to make use of map(), filter() and find() to solve the tasks described further down.");
-console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥");
-console.log("DATA ⤵️⤵️⤵️⤵️⤵️⤵️⤵️");
-console.log(data);
-console.log("------------------");
-console.log("ANSWERS ");
-// TODO 1: Create a function that returns only people with a given eye color. Make sure that the function also prints the result in the console.
+// TODO 2: Remove all the anys and make this field error free
 var peopleWithEyeColor = function (data, eyeColor) {
     var result = data.filter(function (person) { return person.eyeColor === eyeColor; });
     console.log("1. People with ".concat(eyeColor, " eyes:"), result);
     return result;
 };
 peopleWithEyeColor(data, "blue");
-// TODO 2: Create a function that returns ONLY the names of those people younger than a given age. Make sure that the function also prints the result in the console.
 var peopleYoungerThan = function (data, ageLimit) {
     var result = data.filter(function (person) { return person.age <= ageLimit; }).map(function (person) { return person.name; });
     console.log("2. People younger than ".concat(ageLimit, ":"), result);
     return result;
 };
 peopleYoungerThan(data, 30);
-// TODO 3: Create a function that returns ONLY names that include a given vowel of those people older than a given age. Make sure that the function also prints the result in the console.
 var peopleOlderThanContainsVowel = function (data, ageLimit, vowel) {
     var result = data.filter(function (person) { return person.age >= ageLimit; }).map(function (person) { return person.name; }).filter(function (name) { return name.toLocaleUpperCase().includes(vowel.toLocaleUpperCase()); });
     console.log("3. People older than ".concat(ageLimit, " whose name contains \"").concat(vowel, "\":"), result);
     return result;
 };
 peopleOlderThanContainsVowel(data, 30, "o");
-// TODO 4: Create a function that returns how many people have a specific favorite fruit. Make sure that the function also prints the result in the console.
 var howManyPeopleLikeFruit = function (data, fruit) {
     var result = data.filter(function (person) { return person.favoriteFruit === fruit; }).length;
     console.log("4. Number of people who have \"".concat(fruit, "\" as their favorite fruit:"), result);
     return result;
 };
 howManyPeopleLikeFruit(data, "strawberry");
-// TODO 5: Create a function that finds a person with a given _id. Make sure that the function also prints the result in the console.
 var getPersonById = function (data, id) {
     var result = data.find(function (person) { return person._id === id; });
     console.log("5. Person with unique id ".concat(id, ":"), result);

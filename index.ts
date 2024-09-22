@@ -1,29 +1,7 @@
-// TypeScript types
-type Friend = {
-  id: number;
-  name: string;
-}
 
-type Person = {
-  _id: string;
-  index: number;
-  guid: string;
-  isActive: boolean;
-  balance: string;
-  picture: string;
-  age: number;
-  eyeColor: string;
-  name: string;
-  gender: string;
-  company: string;
-  email: string;
-  phone: string;
-  address: string;
-  tags: string[];
-  friends: Friend[];
-  favoriteFruit: string;
-}
+console.log("WELCOME TO DEMO #3")
 
+// TODO 1: Define Person type
 type Data = Person[];
 
 // Data
@@ -351,9 +329,8 @@ const data: Data = [
 ]
 
 
-console.log("WELCOME TO DEMO #3")
-console.log("Your task is to remove all the anys and make this fiel error free")
 
+// TODO 2: Remove all the anys and make this field error free
 
 const peopleWithEyeColor = (data: any, eyeColor: any): any => {
   const result = data.filter((person: any) => person.eyeColor === eyeColor);
