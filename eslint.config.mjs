@@ -9,6 +9,7 @@ export default tseslint.config(
   {
     rules: {
         "no-undef": "off",
+        // '@typescript-eslint/no-explicit-any': 'error',
     },
   },
 

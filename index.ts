@@ -350,18 +350,11 @@ const data: Data = [
   }
 ]
 
-console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
-console.log("WELCOME TO DEMO #6 - You've come a long way! ")
-console.log("Your task is to make use of map(), filter() and find() to solve the tasks described further down.")
 
-console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+console.log("WELCOME TO DEMO #3")
+console.log("Your task is to remove all the anys and make this fiel error free")
 
-console.log("DATA ⤵️⤵️⤵️⤵️⤵️⤵️⤵️")
-console.log(data)
-console.log("------------------")
-console.log("ANSWERS ")
 
-// TODO 1: Create a function that returns only people with a given eye color. Make sure that the function also prints the result in the console.
 const peopleWithEyeColor = (data: any, eyeColor: any): any => {
   const result = data.filter((person: any) => person.eyeColor === eyeColor);
   console.log(`1. People with ${eyeColor} eyes:`, result);
@@ -370,7 +363,7 @@ const peopleWithEyeColor = (data: any, eyeColor: any): any => {
 
 peopleWithEyeColor(data, "blue");
 
-// TODO 2: Create a function that returns ONLY the names of those people younger than a given age. Make sure that the function also prints the result in the console.
+
 const peopleYoungerThan = (data: any, ageLimit: any): any => {
   const result = data.filter((person: any) => person.age <= ageLimit).map((person: any) => person.name);
   console.log(`2. People younger than ${ageLimit}:`, result);
@@ -379,7 +372,7 @@ const peopleYoungerThan = (data: any, ageLimit: any): any => {
 
 peopleYoungerThan(data, 30);
 
-// TODO 3: Create a function that returns ONLY names that include a given vowel of those people older than a given age. Make sure that the function also prints the result in the console.
+
 const peopleOlderThanContainsVowel = (data: any, ageLimit: any, vowel: any): any => {
   const result = data.filter((person: any) => person.age >= ageLimit).map((person: any) => person.name).filter((name: any) => name.toLocaleUpperCase().includes(vowel.toLocaleUpperCase()));
   console.log(`3. People older than ${ageLimit} whose name contains "${vowel}":`, result);
@@ -388,7 +381,7 @@ const peopleOlderThanContainsVowel = (data: any, ageLimit: any, vowel: any): any
 
 peopleOlderThanContainsVowel(data, 30, "o");
 
-// TODO 4: Create a function that returns how many people have a specific favorite fruit. Make sure that the function also prints the result in the console.
+
 const howManyPeopleLikeFruit = (data: any, fruit: any): any => {
   const result = data.filter((person: any) => person.favoriteFruit === fruit).length;
   console.log(`4. Number of people who have "${fruit}" as their favorite fruit:`, result);
@@ -397,7 +390,7 @@ const howManyPeopleLikeFruit = (data: any, fruit: any): any => {
 
 howManyPeopleLikeFruit(data, "strawberry");
 
-// TODO 5: Create a function that finds a person with a given _id. Make sure that the function also prints the result in the console.
+
 const getPersonById = (data: any, id: any): any => {
   const result = data.find((person: any) => person._id === id);
   console.log(`5. Person with unique id ${id}:`, result);
