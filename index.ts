@@ -5,7 +5,6 @@
 
 
   // TODO 1: Create a console log that prints "Hello World using TypeScript"
-  console.log("Hello World using TypeScript");
 
 
   // TODO 2: Now you need to transpile the TypeScript file into a JavaScript file.
