@@ -1,5 +1,8 @@
 
 console.log("WELCOME TO DEMO #3")
+console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+
+
 
 // TODO 1: Define Person type
 type Data = Person[];
@@ -327,6 +330,13 @@ const data: Data = [
     "favoriteFruit": "strawberry"
   }
 ]
+
+
+
+console.log("DATA ⤵️⤵️⤵️⤵️⤵️⤵️⤵️")
+console.log(data)
+console.log("------------------")
+console.log("ANSWERS ")
 
 
 
