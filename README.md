@@ -1,4 +1,4 @@
-# Spk Frontend Workshop 2024
+# Spk Frontend Workshop 2026
 
 HTML/CSS SPK Demo 🔥
 
