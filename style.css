@@ -1,82 +1,120 @@
-/* * SELECTORS */
-/* selector: {
-    property: value
-} */
+/* ==========================================================
+   DEMO 100-3: CSS VARIABLES AND THEMING (LIGHT / DARK)
+   Goal: add a dark theme by redefining variables, without
+   touching any of the component styles below.
+   Click "Toggle theme" in the page: it sets data-theme="dark"
+   or data-theme="light" on the <html> element.
+   ========================================================== */
 
-/* * Universal Selector */
-/* * {
-    color: orange;
-} */
+/* ---------- Theme variables ---------- */
+/* :root is the <html> element. Variables defined here are
+   available everywhere. This is the LIGHT theme (the default). */
+:root {
+    --color-bg: #fffdf7;
+    --color-text: #222222;
+    --color-surface: lightyellow;
+    --color-primary: lightblue;
+    --color-primary-text: blue;
+    --color-accent: lightsalmon;
+    --color-accent-text: darkred;
+    --color-border: #b1e5f2;
+}
 
-/* * Type/Element Selector */
+/* TODO 1: Add the DARK theme.
+   Create a block that only applies when <html> has data-theme="dark":
+
+       [data-theme="dark"] {
+           ...
+       }
+
+   Inside, redefine EVERY variable from :root with a darker value.
+   Hint: dark background and light text; keep the accent colors readable.
+   Careful: this block must come AFTER :root. Same specificity, the last one wins. */
+
+
+/* TODO 2: Find the hard-coded color in the "Pseudo Classes" section below
+   (the hover color). Replace it with a variable:
+   Step A: define --color-hover in :root (light) and in your dark block.
+   Step B: use it: background-color: var(--color-hover); */
+
+
+/* ---------- Component styles (they only use variables) ---------- */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: Arial, Helvetica, sans-serif;
+    /* TODO 3 (bonus): make the switch smooth.
+       Hint: transition: background-color 0.3s, color 0.3s; */
+}
+
 p {
-    color: black;
     font-size: 16px;
 }
 
 hr {
-    border-top: 1px dashed #b1e5f2;
-  }
+    border-top: 1px dashed var(--color-border);
+}
 
+#theme-toggle {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+}
 
-/* * ID Selector */
 #deal-of-the-week {
-    background-color: lightsalmon;
-    color: darkred;
+    background-color: var(--color-accent);
+    color: var(--color-accent-text);
 }
 
-
-/* * Class Selector */
 .deal-of-the-day {
-    background-color: lightblue;
-    color: blue;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 .container-item {
-    display: flex;
-    flex-direction: row;
     padding: 10px;
 }
 
 .menu-square {
-    width: 10px; margin-left: 10px;
+    width: 40px;
+    height: 40px;
 }
 
 .week-background {
-    background-color: lightsalmon;
+    background-color: var(--color-accent);
 }
 
 .day-background {
-    background-color: lightblue
+    background-color: var(--color-primary);
 }
 
-
-/* * Descendant Selector */
-ol li  {
-    color: black;
+ol li {
     letter-spacing: 3px;
     line-height: 20px;
     margin-top: 5px;
     font-size: 16px;
 }
 
-
-/* * Even More Specific Descendant Selector */
 footer #alert h2 {
-    background-color: lightyellow;
+    background-color: var(--color-surface);
 }
 
-
-/* * Pseudo Classes */
+/* ---------- Pseudo Classes ---------- */
 ol li:hover {
     background-color: lime;
 }
 
-/* * ---------------- */
+/* ---------- BONUS ---------- */
+/* TODO 4 (bonus): Follow the user's operating system setting.
+   Add a media query that applies the dark values when the OS is in dark mode,
+   unless the user chose light with the button:
 
-
+       @media (prefers-color-scheme: dark) {
+           :root:not([data-theme="light"]) {
+               ...same dark variables...
+           }
+       }
+   Test it: change your OS appearance, or use DevTools > Rendering > "Emulate prefers-color-scheme". */
