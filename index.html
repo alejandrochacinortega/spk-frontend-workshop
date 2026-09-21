@@ -3,58 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS SPK Demo</title>
+    <title>Flexbox Navbar Demo</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <main>
-        <header>
-            <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
-            <hr>
-            <div class="container">
-                <div class="container-item">
-                    <p>Deal of the day</p>
-                    <div class="menu-square day-background"></div>
-                </div>
-                <div class="container-item">
-                    <p>Deal of the week</p>
-                    <div class="menu-square week-background"></div>
-                </div>
-            </div>
-        </header>
-        <hr>
-        <section>
-            <ol>
-                <li id="deal-of-the-week">Foccacia </li>
-                <li class="deal-of-the-day">Pinsa</li>
-                <li class="day-background">Pabellon Criollo</li>
-                <li class="week-background">Pizza</li>
-                <li class="day-background">Fiskegrateng</li>
-                <li class="day-background">Daal med naan</li>
-                <li class="week-background">Sushi</li>
+    <!-- NAVBAR: this is the part you will style with Flexbox -->
+    <header class="navbar">
+        <a class="logo" href="#">🍕 Favorite Foods</a>
 
+        <nav>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="#menu">Menu</a></li>
+                <li class="nav-item"><a href="#deals">Deals</a></li>
+                <li class="nav-item"><a href="#contributors">Contributors</a></li>
+                <li class="nav-item"><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <a class="cta-button" href="#contact">Book a table</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to our Favorite Foods 🍕 🥦 🥩 🍖</h1>
+            <p>Dishes suggested by our team, from Norway to Venezuela.</p>
+        </section>
+
+        <section id="menu" class="menu">
+            <h2>Menu</h2>
+            <ol>
+                <li class="week-background">Focaccia</li>
+                <li class="day-background">Pinsa</li>
+                <li class="week-background">Pabellon Criollo</li>
+                <li class="day-background">Sushi</li>
             </ol>
         </section>
-        <hr>
-        <footer>
-            <h1>Contributors 💚</h1>
-            <ul>
-                <li>Jenny</li>
-                <li>Joakim</li>
-                <li>Marcus</li>
-                <li>Halvard</li>
-                <li>Fahmi</li>
-                <li>David</li>
-                <li>Alejandro</li>
-            </ul>
-            <hr>
-            <div id="alert">
-                <h2>😋 Our restaurant needs more dishes 😋 </h2>
-            </div>
-            <h2>🤖️ End of Demo 2 🤖️ </h2>
-
-        </footer>
     </main>
 
+    <footer id="contact">
+        <p>😋 Our restaurant needs more dishes 😋</p>
+    </footer>
 </body>
 </html>

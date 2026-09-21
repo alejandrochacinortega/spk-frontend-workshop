@@ -1,50 +1,92 @@
-/* * SELECTORS */
-/* selector: {
-    property: value
-} */
+/* ==========================================================
+   DEMO 100-1: FLEXBOX NAVBAR
+   Goal: turn the stacked links below into a responsive navbar.
+   Open index.html in the browser and shrink the window to test.
+   ========================================================== */
 
-/* * Universal Selector */
-/* * {
-    color: orange;
-} */
-
-/* * Type/Element Selector */
-p {
-    color: black;
-    font-size: 16px;
+/* ---------- Base styles (already done, do not change) ---------- */
+* {
+    box-sizing: border-box;
 }
 
-hr {
-    border-top: 1px dashed #b1e5f2;
-  }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+}
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-/* * ID Selector */
-#deal-of-the-week {
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    background-color: lightblue;
+    padding: 12px 24px;
+
+    /* TODO 1: Make the navbar a flex container.
+       Hint: display: flex;
+       Watch what happens to the logo, the links and the button. */
+
+    /* TODO 2: Spread the 3 children (logo, nav, button) across the bar,
+       with space between them.
+       Hint: justify-content: space-between; */
+
+    /* TODO 3: Center the children vertically.
+       Hint: align-items: center; */
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav-links {
+    background-color: white;
+
+    /* TODO 4: Make the list a flex container too, so the links sit in a row.
+       Hint: display: flex; and gap: 24px; */
+}
+
+.nav-item a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.nav-item a:hover {
+    background-color: lightsalmon;
+}
+
+.cta-button {
     background-color: lightsalmon;
     color: darkred;
+    font-weight: bold;
+    padding: 10px 18px;
+    border-radius: 6px;
 }
 
-
-/* * Class Selector */
-.deal-of-the-day {
-    background-color: lightblue;
-    color: blue;
+/* ---------- Page content ---------- */
+.hero {
+    padding: 48px 24px;
+    text-align: center;
+    background-color: lightyellow;
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
+.menu {
+    padding: 24px;
 }
 
-.container-item {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-}
-
-.menu-square {
-    width: 10px; margin-left: 10px;
+.menu li {
+    padding: 8px;
+    margin-bottom: 6px;
 }
 
 .week-background {
@@ -52,31 +94,23 @@ hr {
 }
 
 .day-background {
-    background-color: lightblue
+    background-color: lightblue;
 }
 
-
-/* * Descendant Selector */
-ol li  {
-    color: black;
-    letter-spacing: 3px;
-    line-height: 20px;
-    margin-top: 5px;
-    font-size: 16px;
-}
-
-
-/* * Even More Specific Descendant Selector */
-footer #alert h2 {
+footer {
+    padding: 24px;
+    text-align: center;
     background-color: lightyellow;
 }
 
-
-/* * Pseudo Classes */
-ol li:hover {
-    background-color: lime;
+/* ---------- Responsive (mobile) ---------- */
+/* TODO 5: Make the navbar work on small screens.
+   Step A: back in .navbar, allow the children to wrap onto a new line.
+           Hint: flex-wrap: wrap;  (and row-gap: 12px;)
+   Step B: inside the media query below, stack the links vertically.
+           Hint: .nav-links { flex-direction: column; }
+   Step C: make the navbar itself stack and center everything.
+           Hint: .navbar { flex-direction: column; } */
+@media (max-width: 600px) {
+    /* Write your mobile styles here */
 }
-
-/* * ---------------- */
-
-
