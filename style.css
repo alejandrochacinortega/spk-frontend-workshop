@@ -31,16 +31,18 @@ ul {
     background-color: lightblue;
     padding: 12px 24px;
 
-    /* TODO 1: Make the navbar a flex container.
-       Hint: display: flex;
-       Watch what happens to the logo, the links and the button. */
+    /* 1: The navbar is a flex container: children go in a row */
+    display: flex;
 
-    /* TODO 2: Spread the 3 children (logo, nav, button) across the bar,
-       with space between them.
-       Hint: justify-content: space-between; */
+    /* 2: Spread logo, nav and button across the bar */
+    justify-content: space-between;
 
-    /* TODO 3: Center the children vertically.
-       Hint: align-items: center; */
+    /* 3: Center the children vertically */
+    align-items: center;
+
+    /* 5A: On narrow screens, children wrap onto a new line */
+    flex-wrap: wrap;
+    row-gap: 12px;
 }
 
 .logo {
@@ -51,8 +53,9 @@ ul {
 .nav-links {
     background-color: white;
 
-    /* TODO 4: Make the list a flex container too, so the links sit in a row.
-       Hint: display: flex; and gap: 24px; */
+    /* 4: The list is a flex container too: links sit in a row */
+    display: flex;
+    gap: 24px;
 }
 
 .nav-item a {
@@ -104,13 +107,15 @@ footer {
 }
 
 /* ---------- Responsive (mobile) ---------- */
-/* TODO 5: Make the navbar work on small screens.
-   Step A: back in .navbar, allow the children to wrap onto a new line.
-           Hint: flex-wrap: wrap;  (and row-gap: 12px;)
-   Step B: inside the media query below, stack the links vertically.
-           Hint: .nav-links { flex-direction: column; }
-   Step C: make the navbar itself stack and center everything.
-           Hint: .navbar { flex-direction: column; } */
+/* 5: Mobile. Stack the navbar and the links, centered */
 @media (max-width: 600px) {
-    /* Write your mobile styles here */
+    .navbar {
+        flex-direction: column;   /* 5C */
+    }
+
+    .nav-links {
+        flex-direction: column;   /* 5B */
+        align-items: center;
+        gap: 4px;
+    }
 }
