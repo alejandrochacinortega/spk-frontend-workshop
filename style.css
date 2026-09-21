@@ -1,50 +1,100 @@
-/* * SELECTORS */
-/* selector: {
-    property: value
-} */
+/* ==========================================================
+   DEMO 100-2: CSS GRID MAGAZINE LAYOUT
+   Goal: arrange the header, sidebar, main content and footer
+   into a magazine layout using CSS Grid and grid-template-areas.
+   Open index.html in the browser and shrink the window to test.
+   ========================================================== */
 
-/* * Universal Selector */
-/* * {
-    color: orange;
-} */
+/* ---------- Base styles (already done, do not change) ---------- */
+* {
+    box-sizing: border-box;
+}
 
-/* * Type/Element Selector */
-p {
-    color: black;
-    font-size: 16px;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
 }
 
 hr {
     border-top: 1px dashed #b1e5f2;
-  }
+}
 
+/* ---------- Page layout ---------- */
+.page {
+    padding: 16px;
 
-/* * ID Selector */
+    /* TODO 1: Make .page a grid container.
+       Hint: display: grid; */
+
+    /* TODO 2: Create 2 columns: a fixed sidebar and a flexible content area.
+       Hint: grid-template-columns: 250px 1fr; */
+
+    /* TODO 3: Draw the layout with names, one string per row.
+       The header and the footer span both columns.
+       Hint: grid-template-areas:
+                "header  header"
+                "sidebar main"
+                "footer  footer";  */
+
+    /* TODO 4: Add space between the areas.
+       Hint: gap: 16px; */
+}
+
+/* ---------- Grid items ---------- */
+/* TODO 5: Give each item the name of its area from TODO 3.
+   Hint: grid-area: header;  (use header, sidebar, main, footer) */
+
+.page-header {
+    background-color: lightblue;
+    padding: 24px;
+    text-align: center;
+    /* TODO 5: grid-area: ... */
+}
+
+.sidebar {
+    background-color: lightyellow;
+    padding: 16px;
+    /* TODO 5: grid-area: ... */
+}
+
+.content {
+    background-color: white;
+    border: 1px dashed #b1e5f2;
+    padding: 16px;
+    /* TODO 5: grid-area: ... */
+}
+
+.page-footer {
+    background-color: lightblue;
+    padding: 16px;
+    text-align: center;
+    /* TODO 5: grid-area: ... */
+}
+
+/* ---------- Content styles ---------- */
+.container-item {
+    padding: 10px;
+}
+
+.menu-square {
+    width: 40px;
+    height: 40px;
+}
+
+ol li {
+    padding: 8px;
+    margin-bottom: 6px;
+}
+
 #deal-of-the-week {
     background-color: lightsalmon;
     color: darkred;
 }
 
-
-/* * Class Selector */
 .deal-of-the-day {
     background-color: lightblue;
     color: blue;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
-}
-
-.container-item {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-}
-
-.menu-square {
-    width: 10px; margin-left: 10px;
 }
 
 .week-background {
@@ -52,31 +102,29 @@ hr {
 }
 
 .day-background {
-    background-color: lightblue
+    background-color: lightblue;
 }
 
-
-/* * Descendant Selector */
-ol li  {
-    color: black;
-    letter-spacing: 3px;
-    line-height: 20px;
-    margin-top: 5px;
-    font-size: 16px;
-}
-
-
-/* * Even More Specific Descendant Selector */
 footer #alert h2 {
     background-color: lightyellow;
 }
 
-
-/* * Pseudo Classes */
 ol li:hover {
     background-color: lime;
 }
 
-/* * ---------------- */
+/* ---------- Responsive (mobile) ---------- */
+/* TODO 6: On small screens, stack everything in a single column.
+   Inside the media query, redefine the two grid properties:
+   Step A: grid-template-columns: 1fr;
+   Step B: grid-template-areas with one area per row, in this order:
+           header, main, sidebar, footer
+   Notice that you did not touch the HTML: only the names moved. */
+@media (max-width: 600px) {
+    /* Write your mobile styles here */
+}
 
-
+/* ---------- BONUS ---------- */
+/* TODO 7: Make the footer stick to the bottom even with little content.
+   Hint: on .page add min-height: 100vh; and
+         grid-template-rows: auto 1fr auto; */

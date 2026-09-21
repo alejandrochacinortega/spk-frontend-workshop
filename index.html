@@ -7,10 +7,17 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <main>
-        <header>
+    <!-- .page is the grid container. Its 4 children are the grid items:
+         header, aside, main and footer. -->
+    <div class="page">
+
+        <header class="page-header">
             <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
-            <hr>
+            <p>Dishes suggested by our team, from Norway to Venezuela.</p>
+        </header>
+
+        <aside class="sidebar">
+            <h2>Deals</h2>
             <div class="container">
                 <div class="container-item">
                     <p>Deal of the day</p>
@@ -21,23 +28,8 @@
                     <div class="menu-square week-background"></div>
                 </div>
             </div>
-        </header>
-        <hr>
-        <section>
-            <ol>
-                <li id="deal-of-the-week">Foccacia </li>
-                <li class="deal-of-the-day">Pinsa</li>
-                <li class="day-background">Pabellon Criollo</li>
-                <li class="week-background">Pizza</li>
-                <li class="day-background">Fiskegrateng</li>
-                <li class="day-background">Daal med naan</li>
-                <li class="week-background">Sushi</li>
 
-            </ol>
-        </section>
-        <hr>
-        <footer>
-            <h1>Contributors 💚</h1>
+            <h2>Contributors 💚</h2>
             <ul>
                 <li>Jenny</li>
                 <li>Joakim</li>
@@ -47,14 +39,28 @@
                 <li>David</li>
                 <li>Alejandro</li>
             </ul>
-            <hr>
+        </aside>
+
+        <main class="content">
+            <h2>Menu</h2>
+            <ol>
+                <li id="deal-of-the-week">Foccacia </li>
+                <li class="deal-of-the-day">Pinsa</li>
+                <li class="day-background">Pabellon Criollo</li>
+                <li class="week-background">Pizza</li>
+                <li class="day-background">Fiskegrateng</li>
+                <li class="day-background">Daal med naan</li>
+                <li class="week-background">Sushi</li>
+            </ol>
+        </main>
+
+        <footer class="page-footer">
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 2 🤖️ </h2>
-
+            <h2>🤖️ End of Demo 100-2 🤖️ </h2>
         </footer>
-    </main>
 
+    </div>
 </body>
 </html>
