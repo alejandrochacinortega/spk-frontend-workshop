@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox Navbar Demo</title>
+    <title>CSS SPK Demo</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -25,23 +25,49 @@
 
     <main>
         <section class="hero">
-            <h1>Welcome to our Favorite Foods 🍕 🥦 🥩 🍖</h1>
-            <p>Dishes suggested by our team, from Norway to Venezuela.</p>
+            <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
+            <hr>
+            <div class="container" id="deals">
+                <div class="container-item">
+                    <p>Deal of the day</p>
+                    <div class="menu-square day-background"></div>
+                </div>
+                <div class="container-item">
+                    <p>Deal of the week</p>
+                    <div class="menu-square week-background"></div>
+                </div>
+            </div>
         </section>
-
-        <section id="menu" class="menu">
-            <h2>Menu</h2>
+        <hr>
+        <section id="menu">
             <ol>
-                <li class="week-background">Focaccia</li>
-                <li class="day-background">Pinsa</li>
-                <li class="week-background">Pabellon Criollo</li>
-                <li class="day-background">Sushi</li>
+                <li id="deal-of-the-week">Foccacia </li>
+                <li class="deal-of-the-day">Pinsa</li>
+                <li class="day-background">Pabellon Criollo</li>
+                <li class="week-background">Pizza</li>
+                <li class="day-background">Fiskegrateng</li>
+                <li class="day-background">Daal med naan</li>
+                <li class="week-background">Sushi</li>
             </ol>
         </section>
+        <hr>
+        <footer id="contact">
+            <h1 id="contributors">Contributors 💚</h1>
+            <ul>
+                <li>Jenny</li>
+                <li>Joakim</li>
+                <li>Marcus</li>
+                <li>Halvard</li>
+                <li>Fahmi</li>
+                <li>David</li>
+                <li>Alejandro</li>
+            </ul>
+            <hr>
+            <div id="alert">
+                <h2>😋 Our restaurant needs more dishes 😋 </h2>
+            </div>
+            <h2>🤖️ End of Demo 100-1 🤖️ </h2>
+        </footer>
     </main>
-
-    <footer id="contact">
-        <p>😋 Our restaurant needs more dishes 😋</p>
-    </footer>
 </body>
 </html>

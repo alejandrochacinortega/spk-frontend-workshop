@@ -20,10 +20,8 @@ a {
     color: inherit;
 }
 
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+hr {
+    border-top: 1px dashed #b1e5f2;
 }
 
 /* ---------- Navbar ---------- */
@@ -52,6 +50,9 @@ ul {
 
 .nav-links {
     background-color: white;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
     /* 4: The list is a flex container too: links sit in a row */
     display: flex;
@@ -77,19 +78,38 @@ ul {
 }
 
 /* ---------- Page content ---------- */
+.hero, main section, footer {
+    padding: 24px;
+}
+
 .hero {
-    padding: 48px 24px;
     text-align: center;
     background-color: lightyellow;
 }
 
-.menu {
-    padding: 24px;
+.container-item {
+    padding: 10px;
 }
 
-.menu li {
+.menu-square {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+ol li {
     padding: 8px;
     margin-bottom: 6px;
+}
+
+#deal-of-the-week {
+    background-color: lightsalmon;
+    color: darkred;
+}
+
+.deal-of-the-day {
+    background-color: lightblue;
+    color: blue;
 }
 
 .week-background {
@@ -100,10 +120,12 @@ ul {
     background-color: lightblue;
 }
 
-footer {
-    padding: 24px;
-    text-align: center;
+footer #alert h2 {
     background-color: lightyellow;
+}
+
+footer {
+    text-align: center;
 }
 
 /* ---------- Responsive (mobile) ---------- */
