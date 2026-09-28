@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS SPK Demo</title>
+    <title>JavaScript SPK Demo</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <main>
         <header>
-            <!-- Theme button: the script at the bottom is provided (JavaScript comes later in the course).
-                 It only switches data-theme on <html> between "light" and "dark". Do not edit it. -->
+            <!-- Theme button from demo 100-3. The script at the bottom switches data-theme on <html>.
+                 In demo 100-5 we will write this kind of script ourselves. -->
             <button id="theme-toggle" type="button">🌓 Toggle theme</button>
 
             <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
@@ -39,6 +39,12 @@
             </ol>
         </section>
         <hr>
+        <section id="checks-panel">
+            <h2>Checks 🧪</h2>
+            <p id="checks-summary">No checks ran. Open the Console (F12): is there a red error?</p>
+            <ul id="checks"></ul>
+        </section>
+        <hr>
         <footer>
             <h1>Contributors 💚</h1>
             <ul>
@@ -54,12 +60,16 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 100-3 🤖️ </h2>
+            <h2>🤖️ End of Demo 100-4 🤖️ </h2>
         </footer>
     </main>
 
+    <!-- Demo 100-4: checks.js is the provided test helper, index.js is where you work -->
+    <script src="./checks.js"></script>
+    <script src="./index.js"></script>
+
     <script>
-        // Provided script: do not edit.
+        // Theme toggle from demo 100-3: do not edit.
         const toggle = document.querySelector('#theme-toggle');
         toggle.addEventListener('click', () => {
             const root = document.documentElement;

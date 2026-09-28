@@ -1,9 +1,7 @@
 /* ==========================================================
-   DEMO 100-3: CSS VARIABLES AND THEMING (LIGHT / DARK)
-   Goal: add a dark theme by redefining variables, without
-   touching any of the component styles below.
-   Click "Toggle theme" in the page: it sets data-theme="dark"
-   or data-theme="light" on the <html> element.
+   Styles from DEMO 100-3 (CSS variables, light / dark theme).
+   Demo 100-4 only adds the checks panel at the bottom.
+   You do not need to edit this file.
    ========================================================== */
 
 /* ---------- Theme variables ---------- */
@@ -19,6 +17,8 @@
     --color-accent-text: darkred;
     --color-border: #b1e5f2;
     --color-hover: lime;   /* 2 */
+    --color-pass: #d8f5d8;
+    --color-fail: #ffdcdc;
 }
 
 /* 1: The DARK theme. Same variable names, darker values.
@@ -34,6 +34,8 @@
     --color-accent-text: #ffd9d0;
     --color-border: #3a5a66;
     --color-hover: #2e7d32;
+    --color-pass: #1d4620;
+    --color-fail: #5c1f1f;
 }
 
 /* ---------- Component styles (they only use variables) ---------- */
@@ -118,5 +120,29 @@ ol li:hover {
         --color-accent-text: #ffd9d0;
         --color-border: #3a5a66;
         --color-hover: #2e7d32;
+        --color-pass: #1d4620;
+        --color-fail: #5c1f1f;
     }
+}
+
+/* ---------- Demo 100-4: checks panel ---------- */
+#checks {
+    list-style: none;
+    padding: 0;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+#checks li {
+    padding: 6px 10px;
+    margin-top: 4px;
+    border-radius: 4px;
+}
+
+.check-pass {
+    background-color: var(--color-pass);
+}
+
+.check-fail {
+    background-color: var(--color-fail);
 }
