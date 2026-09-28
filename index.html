@@ -9,8 +9,7 @@
 <body>
     <main>
         <header>
-            <!-- Theme button from demo 100-3. The script at the bottom switches data-theme on <html>.
-                 In demo 100-5 we will write this kind of script ourselves. -->
+            <!-- TODO 1 (index.js): make this button switch between the light and dark theme. -->
             <button id="theme-toggle" type="button">🌓 Toggle theme</button>
 
             <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
@@ -28,21 +27,24 @@
         </header>
         <hr>
         <section>
-            <ol>
-                <li id="deal-of-the-week">Foccacia </li>
-                <li class="deal-of-the-day">Pinsa</li>
-                <li class="day-background">Pabellon Criollo</li>
-                <li class="week-background">Pizza</li>
-                <li class="day-background">Fiskegrateng</li>
-                <li class="day-background">Daal med naan</li>
-                <li class="week-background">Sushi</li>
+            <!-- data-id matches the id of the dish in menu.js -->
+            <ol id="menu-list">
+                <li id="deal-of-the-week">Focaccia <button class="add-button" type="button" data-id="1">Add</button></li>
+                <li class="deal-of-the-day">Pinsa <button class="add-button" type="button" data-id="2">Add</button></li>
+                <li class="day-background">Pabellon Criollo <button class="add-button" type="button" data-id="3">Add</button></li>
+                <li class="week-background">Pizza <button class="add-button" type="button" data-id="4">Add</button></li>
+                <li class="day-background">Fiskegrateng <button class="add-button" type="button" data-id="5">Add</button></li>
+                <li class="day-background">Daal med naan <button class="add-button" type="button" data-id="6">Add</button></li>
+                <li class="week-background">Sushi <button class="add-button" type="button" data-id="7">Add</button></li>
             </ol>
         </section>
         <hr>
-        <section id="checks-panel">
-            <h2>Checks 🧪</h2>
-            <p id="checks-summary">No checks ran. Open the Console (F12): is there a red error?</p>
-            <ul id="checks"></ul>
+        <section id="order">
+            <h2>Your order 🧾</h2>
+            <p>Items: <span id="order-count">0</span></p>
+            <p id="order-items">Nothing yet</p>
+            <p>Total: <strong id="order-total">0 kr</strong></p>
+            <button id="clear-order" type="button">Clear order</button>
         </section>
         <hr>
         <footer>
@@ -60,23 +62,12 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 100-4 🤖️ </h2>
+            <h2>🤖️ End of Demo 100-5 🤖️ </h2>
         </footer>
     </main>
 
-    <!-- Demo 100-4: checks.js is the provided test helper, index.js is where you work -->
-    <script src="./checks.js"></script>
+    <!-- Demo 100-5: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
+    <script src="./menu.js"></script>
     <script src="./index.js"></script>
-
-    <script>
-        // Theme toggle from demo 100-3: do not edit.
-        const toggle = document.querySelector('#theme-toggle');
-        toggle.addEventListener('click', () => {
-            const root = document.documentElement;
-            const current = root.dataset.theme
-                || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            root.dataset.theme = current === 'dark' ? 'light' : 'dark';
-        });
-    </script>
 </body>
 </html>

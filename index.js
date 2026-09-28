@@ -1,109 +1,66 @@
 /* ==========================================================
-   DEMO 100-4: JAVASCRIPT BASICS
-   Goal: make every check on the page green.
-   Open DevTools (F12) > Console: every check is logged there too.
-   Only edit the TODO functions. The checks at the bottom are
-   the "tests": read them to see what each function must return.
-   Tip: type `menu` in the Console to explore the data.
+   DEMO 100-5: THE DOM AND EVENTS
+   Goal: make the page react to clicks.
+   - The theme button switches light / dark (like demo 100-3,
+     but this time you write the script).
+   - The "Add" buttons build an order with a live total.
+   You can use `menu`, `getTotal` and `findById` from menu.js.
+   Save, reload the page, and watch the Console for errors.
    ========================================================== */
 
-// ---------- Data ----------
-// The dishes from the page, as an array of objects.
-const menu = [
-    { id: 1, name: 'Focaccia', price: 89, vegetarian: true },
-    { id: 2, name: 'Pinsa', price: 149, vegetarian: true },
-    { id: 3, name: 'Pabellon Criollo', price: 179, vegetarian: false },
-    { id: 4, name: 'Pizza', price: 159, vegetarian: true, discount: 20 },
-    { id: 5, name: 'Fiskegrateng', price: 199, vegetarian: false },
-    { id: 6, name: 'Daal med naan', price: 139, vegetarian: true, spicy: true },
-    { id: 7, name: 'Sushi', price: 229, vegetarian: false, discount: 0 },
-];
+// ---------- Provided ----------
+// <html> is the root element. data-theme="dark" on it activates the dark theme (demo 100-3).
+const root = document.documentElement;
+
+// Returns "dark" or "light": the theme chosen with the button, or else the operating system setting.
+function getCurrentTheme() {
+    if (root.dataset.theme) {
+        return root.dataset.theme;
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+// The dishes in the order. Never push to it: create a new array instead (demo 100-4).
+let order = [];
 
 // ---------- TODOs ----------
 
-// TODO 1: Return the price as text: 129 -> "129 kr". A price of 0 -> "Free".
-// Use a template literal (backticks).
-function formatPrice(price) {
-    if (price === 0) {
-        return 'Free';
-    }
-    return `${price} kr`;
+// TODO 1: The theme button.
+// a) Select the button with the id "theme-toggle" (document.querySelector).
+// b) Listen for "click" on it (addEventListener).
+// c) When clicked, set root.dataset.theme to the opposite of getCurrentTheme().
+
+
+// TODO 2: Select the three elements of the order section and store them in constants:
+// #order-count, #order-items and #order-total.
+
+
+// TODO 3: Make the order section match the `order` array. Use textContent.
+// - count: the number of dishes
+// - items: the names joined with ", " (for example "Pizza, Sushi"), or "Nothing yet" if the order is empty
+// - total: for example "388 kr" (use getTotal)
+function renderOrder() {
+
 }
 
-// TODO 2: Return "Focaccia (89 kr)". Spicy dishes: "Daal med naan (139 kr, spicy)".
-// Use destructuring with a default value: const { name, price, spicy = false } = dish;
-function describeDish(dish) {
-    const { name, price, spicy = false } = dish;
-    const extra = spicy ? ', spicy' : '';
-    return `${name} (${formatPrice(price)}${extra})`;
-}
+// TODO 4: The "Add" buttons.
+// a) Select ALL elements with the class "add-button" (document.querySelectorAll).
+// b) Add a click listener to each one (forEach).
+// c) In the listener:
+//    - read the dish id from the button's data-id attribute (event.currentTarget.dataset.id). What type is it?
+//    - find the dish with findById(menu, id)
+//    - add it to the order: order = [...order, dish]
+//    - highlight the list item: event.currentTarget.closest('li').classList.add('in-order')
+//    - call renderOrder()
 
-// TODO 3: Return the names of the vegetarian dishes, in menu order.
-// Use .filter() and .map() with arrow functions.
-function getVegetarianNames(dishes) {
-    return dishes
-        .filter((dish) => dish.vegetarian)
-        .map((dish) => dish.name);
-}
 
-// TODO 4: Return the sum of all prices. An empty list -> 0.
-// Use .reduce(). What happens with an empty list if you forget the initial value?
-function getTotal(dishes) {
-    return dishes.reduce((sum, dish) => sum + dish.price, 0);
-}
+// TODO 5: The "Clear order" button (#clear-order).
+// When clicked: empty the order, remove the "in-order" class from every list item, and call renderOrder().
 
-// TODO 5: Return the dish with this id, or undefined.
-// The id can be a number (3) or a string ("3"), like a value read from a form or a URL.
-// Use .find() and ===. Do not use ==.
-function findById(dishes, id) {
-    return dishes.find((dish) => dish.id === Number(id));
-}
 
-// TODO 6: Return a NEW array with the dish added at the end. Do not change `dishes`.
-// `menu` is a const... can you still push to it? Use the spread syntax: [...dishes, dish]
-function addDish(dishes, dish) {
-    return [...dishes, dish];
-}
+// TODO 6 (bonus): Disable the "Clear order" button when the order is empty.
+// Tip: set button.disabled inside renderOrder(), and call renderOrder() once when the page loads.
 
-// TODO 7 (bonus): Return the discount in percent. If a dish has no discount, return 10.
-// Careful: Sushi has discount: 0. Compare `||` and `??`.
-function getDiscount(dish) {
-    return dish.discount ?? 10;
-}
 
-// TODO 8 (bonus): Return a NEW array sorted by price, cheapest first. Do not change `dishes`.
-// .sort() changes the original array! Copy it first, and give sort a compare function.
-function sortByPrice(dishes) {
-    return [...dishes].sort((a, b) => a.price - b.price);
-}
-
-// ---------- Checks (do not edit) ----------
-check('formatPrice(129)', () => formatPrice(129), '129 kr');
-check('formatPrice(0)', () => formatPrice(0), 'Free');
-
-check('describeDish(Focaccia)', () => describeDish(menu[0]), 'Focaccia (89 kr)');
-check('describeDish(Daal med naan)', () => describeDish(menu[5]), 'Daal med naan (139 kr, spicy)');
-
-check('getVegetarianNames(menu)', () => getVegetarianNames(menu), ['Focaccia', 'Pinsa', 'Pizza', 'Daal med naan']);
-
-check('getTotal(menu)', () => getTotal(menu), 1143);
-check('getTotal([])', () => getTotal([]), 0);
-
-check('findById(menu, 3)?.name', () => findById(menu, 3)?.name, 'Pabellon Criollo');
-check('findById(menu, "3")?.name', () => findById(menu, '3')?.name, 'Pabellon Criollo');
-check('findById(menu, 99) === undefined', () => findById(menu, 99) === undefined, true);
-
-check('addDish: [new length, menu length]', () => {
-    const result = addDish(menu, { id: 8, name: 'Tacos', price: 119, vegetarian: false });
-    return [result.length, menu.length];
-}, [8, 7]);
-
-check('getDiscount(Pizza)', () => getDiscount(menu[3]), 20);
-check('getDiscount(Focaccia)', () => getDiscount(menu[0]), 10);
-check('getDiscount(Sushi)', () => getDiscount(menu[6]), 0);
-
-check('sortByPrice(menu): ids', () => sortByPrice(menu).map((dish) => dish.id), [1, 6, 2, 4, 3, 5, 7]);
-check('menu ids after sortByPrice (unchanged)', () => {
-    sortByPrice(menu);
-    return menu.map((dish) => dish.id);
-}, [1, 2, 3, 4, 5, 6, 7]);
+// TODO 7 (bonus): Show how many of each dish are in the order on its button: "Add (2)".
+// Tip: do it inside renderOrder(), for every add button. Use order.filter(...).length.
