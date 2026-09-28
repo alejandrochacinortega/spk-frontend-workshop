@@ -24,50 +24,57 @@ const menu = [
 // TODO 1: Return the price as text: 129 -> "129 kr". A price of 0 -> "Free".
 // Use a template literal (backticks).
 function formatPrice(price) {
-    throw new Error('TODO 1: not implemented');
+    if (price === 0) {
+        return 'Free';
+    }
+    return `${price} kr`;
 }
 
 // TODO 2: Return "Focaccia (89 kr)". Spicy dishes: "Daal med naan (139 kr, spicy)".
 // Use destructuring with a default value: const { name, price, spicy = false } = dish;
 function describeDish(dish) {
-    throw new Error('TODO 2: not implemented');
+    const { name, price, spicy = false } = dish;
+    const extra = spicy ? ', spicy' : '';
+    return `${name} (${formatPrice(price)}${extra})`;
 }
 
 // TODO 3: Return the names of the vegetarian dishes, in menu order.
 // Use .filter() and .map() with arrow functions.
 function getVegetarianNames(dishes) {
-    throw new Error('TODO 3: not implemented');
+    return dishes
+        .filter((dish) => dish.vegetarian)
+        .map((dish) => dish.name);
 }
 
 // TODO 4: Return the sum of all prices. An empty list -> 0.
 // Use .reduce(). What happens with an empty list if you forget the initial value?
 function getTotal(dishes) {
-    throw new Error('TODO 4: not implemented');
+    return dishes.reduce((sum, dish) => sum + dish.price, 0);
 }
 
 // TODO 5: Return the dish with this id, or undefined.
 // The id can be a number (3) or a string ("3"), like a value read from a form or a URL.
 // Use .find() and ===. Do not use ==.
 function findById(dishes, id) {
-    throw new Error('TODO 5: not implemented');
+    return dishes.find((dish) => dish.id === Number(id));
 }
 
 // TODO 6: Return a NEW array with the dish added at the end. Do not change `dishes`.
 // `menu` is a const... can you still push to it? Use the spread syntax: [...dishes, dish]
 function addDish(dishes, dish) {
-    throw new Error('TODO 6: not implemented');
+    return [...dishes, dish];
 }
 
 // TODO 7 (bonus): Return the discount in percent. If a dish has no discount, return 10.
 // Careful: Sushi has discount: 0. Compare `||` and `??`.
 function getDiscount(dish) {
-    throw new Error('TODO 7: not implemented');
+    return dish.discount ?? 10;
 }
 
 // TODO 8 (bonus): Return a NEW array sorted by price, cheapest first. Do not change `dishes`.
 // .sort() changes the original array! Copy it first, and give sort a compare function.
 function sortByPrice(dishes) {
-    throw new Error('TODO 8: not implemented');
+    return [...dishes].sort((a, b) => a.price - b.price);
 }
 
 // ---------- Checks (do not edit) ----------
