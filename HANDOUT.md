@@ -1,83 +1,86 @@
-# Demo 100-4: JavaScript Basics (Student Handout)
+# Demo 100-5: The DOM and Events (Student Handout)
 
 ## Goal
 
-Learn the core of the JavaScript language by making failing checks pass, like unit tests.
-You will work with the restaurant menu as data: an array of objects. There is no DOM work yet: that is demo 100-5.
+Make the restaurant page interactive with JavaScript. You will:
 
-If you already know another language (Java, C#, Python, Go...), pay attention to the places where
-JavaScript behaves differently. Those are the bugs you will meet in real code.
+- write the theme toggle yourself (in demo 100-3 it was provided)
+- build an order with "Add" buttons, a live item list and a total
+
+The DOM (Document Object Model) is the browser's tree of objects for the HTML. JavaScript reads and changes
+that tree, and the browser updates the page.
 
 ## Setup
 
-1. Make sure you are on the branch `100-4-js-basics-start`.
-2. Open `index.html` in your browser. Scroll down to **Checks 🧪**: every check is red.
-3. Open DevTools (F12 or Cmd+Option+I) and go to the **Console** tab. The same checks are logged there.
-4. You only edit `index.js`. `checks.js` is the provided test helper: do not edit it.
+1. Make sure you are on the branch `100-5-js-dom-start`.
+2. Open `index.html` in your browser. Click "Toggle theme" and the "Add" buttons: nothing happens yet.
+3. Open DevTools (F12 or Cmd+Option+I). Keep the **Console** and the **Elements** tabs close by.
+4. You only edit `index.js`. `menu.js` is provided: it has `menu`, `getTotal` and `findById` from demo 100-4.
 5. After each change, save and reload the page.
 
-## Part 1: Explore in the Console (10 min)
+## Part 1: Explore the DOM in the Console (10 min)
 
 Type each line in the Console. Write your prediction **before** you press Enter.
 
 | # | Type this | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | `typeof 42`, `typeof "42"`, `typeof null` | | |
-| 2 | `0.1 + 0.2` | | |
-| 3 | `"5" + 1` and `"5" - 1` | | |
-| 4 | `"3" == 3` and `"3" === 3` | | |
-| 5 | `Boolean(0)`, `Boolean("")`, `Boolean("0")`, `Boolean([])` | | |
-| 6 | `null == undefined` and `NaN === NaN` | | |
-| 7 | `const x = 1; x = 2;` | | |
-| 8 | `const list = [1]; list.push(2); list` | | |
-| 9 | `[100, 25, 3].sort()` | | |
-| 10 | `menu` (the data from `index.js`) | | |
+| 1 | `document.querySelector('h1')` | | |
+| 2 | `document.querySelector('h1').textContent = 'Hello from JS'` | | |
+| 3 | `document.querySelectorAll('.add-button').length` | | |
+| 4 | `document.querySelector('.add-button').dataset.id` and its `typeof` | | |
+| 5 | `document.querySelector('#nope')` | | |
+| 6 | `document.querySelector('#nope').textContent` | | |
+| 7 | `document.documentElement.dataset.theme = 'dark'` | | |
+| 8 | `document.querySelector('li').classList.toggle('in-order')` (run it twice) | | |
+| 9 | In Elements, select an element, then type `$0` in the Console | | |
+| 10 | Reload the page. Are your changes from 2, 7 and 8 still there? | | |
 
-## Part 2: Make the checks green
+## Part 2: Make the page interactive
 
-Find the `TODO` comments in `index.js`. Read the matching check at the bottom of the file first:
-it tells you what the function must return.
+Find the `TODO` comments in `index.js`.
 
-| # | Function | Concept | Done |
+| # | Task | Concept | Done |
 | --- | --- | --- | --- |
-| 1 | `formatPrice(price)` | Template literals, `if` | |
-| 2 | `describeDish(dish)` | Destructuring, default values | |
-| 3 | `getVegetarianNames(dishes)` | Arrow functions, `.filter()`, `.map()` | |
-| 4 | `getTotal(dishes)` | `.reduce()` | |
-| 5 | `findById(dishes, id)` | `.find()`, `===`, type conversion | |
-| 6 | `addDish(dishes, dish)` | `const`, spread, not changing inputs | |
-| 7 | Bonus: `getDiscount(dish)` | `\|\|` vs `??` | |
-| 8 | Bonus: `sortByPrice(dishes)` | `.sort()` with a compare function, copies | |
+| 1 | The theme button switches light / dark | `querySelector`, `addEventListener`, `dataset` | |
+| 2 | Select the order elements | `querySelector`, `const` | |
+| 3 | `renderOrder()` shows count, items and total | `textContent`, `map`, `join` | |
+| 4 | "Add" buttons add the dish to the order | `querySelectorAll`, `forEach`, `event.currentTarget`, `closest`, `classList` | |
+| 5 | "Clear order" empties the order | Removing classes from many elements | |
+| 6 | Bonus: disable "Clear order" when the order is empty | `disabled` property | |
+| 7 | Bonus: show "Add (2)" on the buttons | `filter`, updating many elements | |
 
 ## Checklist
 
-- [ ] All checks on the page are green
+- [ ] The theme button switches between light and dark, also if my OS is in dark mode
+- [ ] Adding Pizza and Sushi shows: 2 items, "Pizza, Sushi", 388 kr
+- [ ] Dishes in the order are highlighted in the list
+- [ ] "Clear order" resets the count, the items, the total and the highlights
 - [ ] There are no red errors in the Console
-- [ ] I did not edit `checks.js` or the checks at the bottom of `index.js`
-- [ ] None of my functions change the `menu` array
-- [ ] I used `===`, not `==`
+- [ ] I only change the page inside `renderOrder()` (and the highlight class)
 - [ ] I can explain every line I wrote
 
 ## Questions to answer
 
-1. What is the difference between `let`, `const` and `var`? Why can you `push` to a `const` array?
-2. Why does `"5" + 1` give `"51"` but `"5" - 1` give `4`?
-3. What happens with `.reduce()` on an empty array if you forget the initial value?
-4. Why is `dish.discount || 10` wrong for Sushi? What does `??` do differently?
-5. Why did `findById(menu, "3")` need special care? Where do strings like `"3"` come from in a web page?
-6. What does `?.` do in the check `findById(menu, 99)?.name`?
+1. What does `querySelector` return when nothing matches? What happens if you then use `.textContent`?
+2. What is the difference between `querySelector` and `querySelectorAll`? What does `querySelectorAll` return?
+3. What type is `button.dataset.id`? Why did `findById` from demo 100-4 need to handle that?
+4. Why is `renderOrder()` one function, called after every change, instead of updating the page in each listener?
+5. Why use `textContent` and not `innerHTML` to show text? (Hint: what if a dish name contained `<img onerror=...>`?)
+6. The `<script>` tags are at the end of `<body>`. What would happen if they were in `<head>`?
 
 ## Challenges (if you finish early)
 
-- Write `getCheapest(dishes)` that returns the cheapest dish. Add your own `check(...)` for it.
-- Write `groupByVegetarian(dishes)` that returns `{ vegetarian: [...names], other: [...names] }`.
-- Show a price with a discount applied, rounded to whole kroner. Try `Math.round` and `toFixed`: what type does each return?
-- Try `console.table(menu)` in the Console.
+- Change the theme button's text to "🌙 Dark" or "☀️ Light", depending on the current theme.
+- Add a "Remove" button to the order section that removes the last dish.
+- Replace the 7 listeners of TODO 4 with **one** listener on `#menu-list`. Use `event.target.closest('.add-button')`.
+  This is called event delegation.
+- Log `event` in a listener and explore it in the Console: `target`, `currentTarget`, `type`, `timeStamp`.
 
 ## Useful links
 
-- [MDN: JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
-- [MDN: Equality comparisons and sameness](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness)
-- [MDN: Array methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
-- [MDN: Nullish coalescing operator (??)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing)
-- [javascript.info](https://javascript.info/)
+- [MDN: Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
+- [MDN: querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+- [MDN: addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+- [MDN: Using data attributes](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Solve_HTML_problems/Use_data_attributes)
+- [MDN: Element.classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
+- [javascript.info: Document](https://javascript.info/document)
