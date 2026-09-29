@@ -38,6 +38,32 @@
             <ol id="menu-list"></ol>
         </section>
         <hr>
+        <section id="new-dish">
+            <h2>Add a dish ✍️</h2>
+            <!-- novalidate: the browser does not validate, our JavaScript does (TODO 2) -->
+            <form id="dish-form" novalidate>
+                <label>
+                    Name
+                    <input name="name" type="text" required>
+                </label>
+                <label>
+                    Price (kr)
+                    <input name="price" type="number" min="1" required>
+                </label>
+                <label class="checkbox">
+                    <input name="vegetarian" type="checkbox">
+                    Vegetarian
+                </label>
+                <label class="checkbox">
+                    <input name="spicy" type="checkbox">
+                    Spicy
+                </label>
+                <button type="submit">Add to menu</button>
+            </form>
+            <p id="form-error" role="alert"></p>
+            <button id="reset-menu" type="button">Reset menu</button>
+        </section>
+        <hr>
         <section id="order">
             <h2>Your order 🧾</h2>
             <p>Items: <span id="order-count">0</span></p>
@@ -61,11 +87,11 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 100-6 🤖️ </h2>
+            <h2>🤖️ End of Demo 100-7 🤖️ </h2>
         </footer>
     </main>
 
-    <!-- Demo 100-6: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
+    <!-- Demo 100-7: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
     <script src="./menu.js"></script>
     <script src="./index.js"></script>
 </body>

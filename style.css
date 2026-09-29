@@ -1,7 +1,8 @@
 /* ==========================================================
    Styles from DEMO 100-3 (CSS variables, light / dark theme).
    Demo 100-5 added the Add buttons and the order section.
-   Demo 100-6 adds the filter buttons.
+   Demo 100-6 added the filter buttons.
+   Demo 100-7 adds the "Add a dish" form.
    You do not need to edit this file.
    ========================================================== */
 
@@ -55,7 +56,9 @@ hr {
 #theme-toggle,
 .add-button,
 .filter-button,
-#clear-order {
+#clear-order,
+#dish-form button,
+#reset-menu {
     background-color: var(--color-surface);
     color: var(--color-text);
     border: 1px solid var(--color-border);
@@ -160,5 +163,39 @@ ol li:hover {
 .filter-button.active {
     background-color: var(--color-primary);
     color: var(--color-primary-text);
+    font-weight: bold;
+}
+
+/* ---------- Demo 100-7: Add a dish form ---------- */
+#dish-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+#dish-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#dish-form label.checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+
+#dish-form input[type="text"],
+#dish-form input[type="number"] {
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+#form-error {
+    min-height: 1.2em;
+    color: var(--color-accent-text);
     font-weight: bold;
 }
