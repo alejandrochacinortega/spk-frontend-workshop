@@ -1,86 +1,92 @@
-# Demo 100-5: The DOM and Events (Student Handout)
+# Demo 100-6: Rendering From Data (Student Handout)
 
 ## Goal
 
-Make the restaurant page interactive with JavaScript. You will:
+In demo 100-5, every dish was written twice: once in `menu.js` and once as an `<li>` in the HTML.
+Now the HTML list is empty, and JavaScript builds it from the `menu` array. You will:
 
-- write the theme toggle yourself (in demo 100-3 it was provided)
-- build an order with "Add" buttons, a live item list and a total
+- create elements with `document.createElement`
+- filter the menu with buttons ("All", "Vegetarian", "Under 150 kr")
+- use **one** click listener for many buttons (event delegation)
 
-The DOM (Document Object Model) is the browser's tree of objects for the HTML. JavaScript reads and changes
-that tree, and the browser updates the page.
+The big idea: **the page is a function of the state.** Handlers change the state (`order`, `activeFilter`),
+then `render()` redraws the page from it.
 
 ## Setup
 
-1. Make sure you are on the branch `100-5-js-dom-start`.
-2. Open `index.html` in your browser. Click "Toggle theme" and the "Add" buttons: nothing happens yet.
-3. Open DevTools (F12 or Cmd+Option+I). Keep the **Console** and the **Elements** tabs close by.
-4. You only edit `index.js`. `menu.js` is provided: it has `menu`, `getTotal` and `findById` from demo 100-4.
+1. Make sure you are on the branch `100-6-js-render-data-start`.
+2. Open `index.html` in your browser. The menu is gone! Open `index.html` in your editor: `<ol id="menu-list">` is empty.
+3. Open DevTools (F12 or Cmd+Option+I) and keep the **Console** and **Elements** tabs close by.
+4. You only edit `index.js`. `menu.js` is provided: `menu`, `formatPrice`, `describeDish`, `getTotal`, `findById`.
 5. After each change, save and reload the page.
 
-## Part 1: Explore the DOM in the Console (10 min)
+## Part 1: Create elements in the Console (10 min)
 
 Type each line in the Console. Write your prediction **before** you press Enter.
 
 | # | Type this | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | `document.querySelector('h1')` | | |
-| 2 | `document.querySelector('h1').textContent = 'Hello from JS'` | | |
-| 3 | `document.querySelectorAll('.add-button').length` | | |
-| 4 | `document.querySelector('.add-button').dataset.id` and its `typeof` | | |
-| 5 | `document.querySelector('#nope')` | | |
-| 6 | `document.querySelector('#nope').textContent` | | |
-| 7 | `document.documentElement.dataset.theme = 'dark'` | | |
-| 8 | `document.querySelector('li').classList.toggle('in-order')` (run it twice) | | |
-| 9 | In Elements, select an element, then type `$0` in the Console | | |
-| 10 | Reload the page. Are your changes from 2, 7 and 8 still there? | | |
+| 1 | `const li = document.createElement('li'); li` | | |
+| 2 | `li.textContent = 'Tacos'` then look at the page. Is it there? | | |
+| 3 | `document.querySelector('#menu-list').append(li)` | | |
+| 4 | `li.textContent = 'Tacos (119 kr)'` (the same `li` object) | | |
+| 5 | `document.querySelector('#menu-list').replaceChildren()` | | |
+| 6 | `menu.map((dish) => dish.name)` | | |
+| 7 | `menu.filter((dish) => dish.price < 150).length` | | |
 
-## Part 2: Make the page interactive
+After TODO 3 works, try this too:
+
+| # | Type this | My prediction | What happened |
+| --- | --- | --- | --- |
+| 8 | `menu.push({ id: 8, name: 'Tacos', price: 119, vegetarian: false })` | | |
+| 9 | `render()` | | |
+| 10 | Could you do 8 + 9 in demo 100-5? | | |
+
+## Part 2: Render the menu
 
 Find the `TODO` comments in `index.js`.
 
 | # | Task | Concept | Done |
 | --- | --- | --- | --- |
-| 1 | The theme button switches light / dark | `querySelector`, `addEventListener`, `dataset` | |
-| 2 | Select the order elements | `querySelector`, `const` | |
-| 3 | `renderOrder()` shows count, items and total | `textContent`, `map`, `join` | |
-| 4 | "Add" buttons add the dish to the order | `querySelectorAll`, `forEach`, `event.currentTarget`, `closest`, `classList` | |
-| 5 | "Clear order" empties the order | Removing classes from many elements | |
-| 6 | Bonus: disable "Clear order" when the order is empty | `disabled` property | |
-| 7 | Bonus: show "Add (2)" on the buttons | `filter`, updating many elements | |
+| 1 | `createDishItem(dish)` returns an `<li>` with an Add button | `createElement`, `className`, `dataset`, `append` | |
+| 2 | `filterDishes(dishes, filter)` | `filter`, pure functions | |
+| 3 | `renderMenu()` draws the list | `replaceChildren`, loops | |
+| 4 | One click listener on the list for all Add buttons | Event delegation, `event.target`, `closest` | |
+| 5 | Filter buttons | State, `classList.toggle(name, condition)` | |
+| 6 | Bonus: "Vegetarian (4)" on the filter buttons | Reusing `filterDishes` | |
 
 ## Checklist
 
-- [ ] The theme button switches between light and dark, also if my OS is in dark mode
-- [ ] Adding Pizza and Sushi shows: 2 items, "Pizza, Sushi", 388 kr
-- [ ] Dishes in the order are highlighted in the list
-- [ ] "Clear order" resets the count, the items, the total and the highlights
-- [ ] There are no red errors in the Console
-- [ ] I only change the page inside `renderOrder()` (and the highlight class)
-- [ ] I can explain every line I wrote
+- [ ] The menu shows all 7 dishes with their price, like before
+- [ ] "Add" works, the dish is highlighted and the button shows "Add (2)" after two clicks
+- [ ] "Vegetarian" shows 4 dishes, "Under 150 kr" shows 3, "All" shows 7
+- [ ] Only the selected filter button looks active
+- [ ] Adding a dish while filtered, then going back to "All", keeps the order and the highlights
+- [ ] "Clear order" resets everything
+- [ ] There is only one `addEventListener` for all the Add buttons
+- [ ] No red errors in the Console
 
 ## Questions to answer
 
-1. What does `querySelector` return when nothing matches? What happens if you then use `.textContent`?
-2. What is the difference between `querySelector` and `querySelectorAll`? What does `querySelectorAll` return?
-3. What type is `button.dataset.id`? Why did `findById` from demo 100-4 need to handle that?
-4. Why is `renderOrder()` one function, called after every change, instead of updating the page in each listener?
-5. Why use `textContent` and not `innerHTML` to show text? (Hint: what if a dish name contained `<img onerror=...>`?)
-6. The `<script>` tags are at the end of `<body>`. What would happen if they were in `<head>`?
+1. Why did 100-5 need to remove the `in-order` classes one by one, and 100-6 does not?
+2. What happens to the old `<li>` elements and their buttons when `renderMenu()` runs again?
+3. Why would one listener per Add button not work well here? (Hint: when are the buttons created?)
+4. What is the difference between `event.target` and `event.currentTarget` in TODO 4?
+5. Where does the "truth" live now: in the HTML or in JavaScript? What are the benefits?
+6. We redraw the whole list on every click. When could that become a problem?
 
 ## Challenges (if you finish early)
 
-- Change the theme button's text to "🌙 Dark" or "☀️ Light", depending on the current theme.
-- Add a "Remove" button to the order section that removes the last dish.
-- Replace the 7 listeners of TODO 4 with **one** listener on `#menu-list`. Use `event.target.closest('.add-button')`.
-  This is called event delegation.
-- Log `event` in a listener and explore it in the Console: `target`, `currentTarget`, `type`, `timeStamp`.
+- Add a "Spicy 🌶️" filter. How many files did you change?
+- Show a message "No dishes match this filter" when the list is empty. (Test it with a filter that matches nothing.)
+- Add a "Sort by price" button. Remember: do not change `menu` (demo 100-4).
+- Build the `<li>` with a template literal and `innerHTML` instead of `createElement`. It is shorter. Then give a dish the name
+  `<img src=x onerror="alert('hacked')">` and reload. What happened? Which version is safe?
 
 ## Useful links
 
-- [MDN: Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
-- [MDN: querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
-- [MDN: addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
-- [MDN: Using data attributes](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Solve_HTML_problems/Use_data_attributes)
-- [MDN: Element.classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
-- [javascript.info: Document](https://javascript.info/document)
+- [MDN: Document.createElement](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
+- [MDN: Element.replaceChildren](https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceChildren)
+- [MDN: Event delegation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling#event_delegation)
+- [MDN: DOMTokenList.toggle](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList/toggle)
+- [javascript.info: Event delegation](https://javascript.info/event-delegation)
