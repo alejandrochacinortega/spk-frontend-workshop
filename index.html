@@ -9,34 +9,33 @@
 <body>
     <main>
         <header>
-            <!-- TODO 1 (index.js): make this button switch between the light and dark theme. -->
+            <!-- Theme button: the script is in index.js (written in demo 100-5) -->
             <button id="theme-toggle" type="button">🌓 Toggle theme</button>
 
             <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
             <hr>
             <div class="container">
                 <div class="container-item">
-                    <p>Deal of the day</p>
+                    <p>Vegetarian 🥦</p>
                     <div class="menu-square day-background"></div>
                 </div>
                 <div class="container-item">
-                    <p>Deal of the week</p>
+                    <p>Meat and fish 🐟</p>
                     <div class="menu-square week-background"></div>
                 </div>
             </div>
         </header>
         <hr>
         <section>
-            <!-- data-id matches the id of the dish in menu.js -->
-            <ol id="menu-list">
-                <li id="deal-of-the-week">Focaccia <button class="add-button" type="button" data-id="1">Add</button></li>
-                <li class="deal-of-the-day">Pinsa <button class="add-button" type="button" data-id="2">Add</button></li>
-                <li class="day-background">Pabellon Criollo <button class="add-button" type="button" data-id="3">Add</button></li>
-                <li class="week-background">Pizza <button class="add-button" type="button" data-id="4">Add</button></li>
-                <li class="day-background">Fiskegrateng <button class="add-button" type="button" data-id="5">Add</button></li>
-                <li class="day-background">Daal med naan <button class="add-button" type="button" data-id="6">Add</button></li>
-                <li class="week-background">Sushi <button class="add-button" type="button" data-id="7">Add</button></li>
-            </ol>
+            <!-- Filter buttons: data-filter tells JavaScript which dishes to show -->
+            <div id="filters">
+                <button class="filter-button active" type="button" data-filter="all">All</button>
+                <button class="filter-button" type="button" data-filter="vegetarian">Vegetarian</button>
+                <button class="filter-button" type="button" data-filter="cheap">Under 150 kr</button>
+            </div>
+
+            <!-- Empty on purpose: JavaScript builds the list from the `menu` array in menu.js -->
+            <ol id="menu-list"></ol>
         </section>
         <hr>
         <section id="order">
@@ -62,11 +61,11 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 100-5 🤖️ </h2>
+            <h2>🤖️ End of Demo 100-6 🤖️ </h2>
         </footer>
     </main>
 
-    <!-- Demo 100-5: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
+    <!-- Demo 100-6: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
     <script src="./menu.js"></script>
     <script src="./index.js"></script>
 </body>

@@ -1,6 +1,7 @@
 /* ==========================================================
    Styles from DEMO 100-3 (CSS variables, light / dark theme).
-   Demo 100-5 adds the Add buttons and the order section.
+   Demo 100-5 added the Add buttons and the order section.
+   Demo 100-6 adds the filter buttons.
    You do not need to edit this file.
    ========================================================== */
 
@@ -53,6 +54,7 @@ hr {
 
 #theme-toggle,
 .add-button,
+.filter-button,
 #clear-order {
     background-color: var(--color-surface);
     color: var(--color-text);
@@ -144,4 +146,19 @@ ol li:hover {
     padding: 10px;
     border: 1px dashed var(--color-border);
     border-radius: 6px;
+}
+
+/* ---------- Demo 100-6: filter buttons ---------- */
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* Added with JavaScript on the selected filter */
+.filter-button.active {
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
+    font-weight: bold;
 }

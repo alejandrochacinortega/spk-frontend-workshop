@@ -14,6 +14,21 @@ const menu = [
     { id: 7, name: 'Sushi', price: 229, vegetarian: false, discount: 0 },
 ];
 
+// 129 -> "129 kr", 0 -> "Free".
+function formatPrice(price) {
+    if (price === 0) {
+        return 'Free';
+    }
+    return `${price} kr`;
+}
+
+// "Focaccia (89 kr)" or "Daal med naan (139 kr, spicy)".
+function describeDish(dish) {
+    const { name, price, spicy = false } = dish;
+    const extra = spicy ? ', spicy' : '';
+    return `${name} (${formatPrice(price)}${extra})`;
+}
+
 // Sum of all prices. An empty list -> 0.
 function getTotal(dishes) {
     return dishes.reduce((sum, dish) => sum + dish.price, 0);
