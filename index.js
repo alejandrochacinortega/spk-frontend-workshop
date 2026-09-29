@@ -29,6 +29,7 @@ const themeToggle = document.querySelector('#theme-toggle');
 themeToggle.addEventListener('click', () => {
     root.dataset.theme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
     // TODO 6a: save the theme in localStorage (key: STORAGE_KEYS.theme)
+    localStorage.setItem(STORAGE_KEYS.theme, root.dataset.theme);
 });
 
 // ---------- State ----------
@@ -149,7 +150,13 @@ clearButton.addEventListener('click', () => {
 // c) data.get('price') is a string too! Convert it with Number(...).
 // d) A checkbox is only in the form data when it is checked: use data.has('vegetarian').
 function readDishForm(form) {
-
+    const data = new FormData(form);
+    return {
+        name: data.get('name').trim(),
+        price: Number(data.get('price')),
+        vegetarian: data.has('vegetarian'),
+        spicy: data.has('spicy'),
+    };
 }
 
 // TODO 2: Return an error message, or an empty string if the dish is valid.
@@ -158,7 +165,19 @@ function readDishForm(form) {
 // - a dish with the same name exists   -> "That dish is already on the menu." (ignore upper/lower case)
 // Tip: what is Number('')? What is Number('abc')? Use Number.isNaN.
 function validateDish(dish, existingDishes) {
-
+    if (dish.name === '') {
+        return 'Please enter a name.';
+    }
+    if (Number.isNaN(dish.price) || dish.price <= 0) {
+        return 'Price must be a number above 0.';
+    }
+    const exists = existingDishes.some(
+        (existing) => existing.name.toLowerCase() === dish.name.toLowerCase(),
+    );
+    if (exists) {
+        return 'That dish is already on the menu.';
+    }
+    return '';
 }
 
 // TODO 3: Handle the form submit.
@@ -168,14 +187,31 @@ function validateDish(dish, existingDishes) {
 //    If there is an error, show it in formError and stop.
 // d) Give it a new id: one higher than the highest id in `dishes` (Math.max).
 // e) Add it to `dishes` (a new array!), clear the error, reset the form, and call render().
+dishForm.addEventListener('submit', (event) => {
+    event.preventDefault();
 
+    const dish = readDishForm(dishForm);
+    const error = validateDish(dish, dishes);
+    if (error) {
+        formError.textContent = error;
+        return;
+    }
+
+    const id = Math.max(0, ...dishes.map((existing) => existing.id)) + 1;
+    dishes = [...dishes, { id, ...dish }];
+
+    formError.textContent = '';
+    dishForm.reset();
+    render();
+});
 
 // TODO 4: Save the state in localStorage. render() calls this every time.
 // localStorage only stores strings: use JSON.stringify.
 // - STORAGE_KEYS.dishes: the whole `dishes` array
 // - STORAGE_KEYS.order: only the ids of the dishes in the order, for example [4, 7, 4]
 function saveState() {
-
+    localStorage.setItem(STORAGE_KEYS.dishes, JSON.stringify(dishes));
+    localStorage.setItem(STORAGE_KEYS.order, JSON.stringify(order.map((dish) => dish.id)));
 }
 
 // TODO 5: Load the state from localStorage. Called once when the page starts.
@@ -184,14 +220,42 @@ function saveState() {
 // c) Turn the saved order ids back into dishes with findById(dishes, id). Skip ids that are not found.
 // d) TODO 6b: if a theme was saved, set root.dataset.theme to it.
 function loadState() {
+    try {
+        const savedDishes = localStorage.getItem(STORAGE_KEYS.dishes);
+        if (savedDishes !== null) {
+            dishes = JSON.parse(savedDishes);
+        }
 
+        const savedOrder = localStorage.getItem(STORAGE_KEYS.order);
+        if (savedOrder !== null) {
+            order = JSON.parse(savedOrder)
+                .map((id) => findById(dishes, id))
+                .filter((dish) => dish !== undefined);
+        }
+    } catch (error) {
+        console.warn('Could not load the saved state, using the defaults.', error);
+        dishes = [...menu];
+        order = [];
+    }
+
+    // TODO 6b
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+    if (savedTheme) {
+        root.dataset.theme = savedTheme;
+    }
 }
 
 // TODO 7 (bonus): The "Reset menu" button (#reset-menu).
 // Remove the saved dishes and order from localStorage (localStorage.removeItem),
 // go back to the original `menu`, empty the order, and call render().
 // Should it also reset the theme? Why or why not?
-
+resetButton.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEYS.dishes);
+    localStorage.removeItem(STORAGE_KEYS.order);
+    dishes = [...menu];
+    order = [];
+    render();
+});
 
 // ---------- Start ----------
 loadState();
