@@ -68,20 +68,51 @@ function render() {
 //    (button.dataset.id = dish.id). Its text: "Add", or "Add (2)" when 2 of this dish are in the order.
 // e) Put the button inside the <li> (item.append(button)) and return the <li>.
 function createDishItem(dish) {
+    const item = document.createElement('li');
+    item.textContent = describeDish(dish);
+    item.className = dish.vegetarian ? 'day-background' : 'week-background';
 
+    const count = order.filter((ordered) => ordered.id === dish.id).length;
+    if (count > 0) {
+        item.classList.add('in-order');
+    }
+
+    const button = document.createElement('button');
+    button.className = 'add-button';
+    button.type = 'button';
+    button.dataset.id = dish.id;
+    button.textContent = count === 0 ? 'Add' : `Add (${count})`;
+
+    item.append(button);
+    return item;
 }
 
 // TODO 2: Return the dishes that match the filter. Do not change `dishes`.
 // "all" -> every dish, "vegetarian" -> vegetarian dishes, "cheap" -> price under 150.
 function filterDishes(dishes, filter) {
-
+    if (filter === 'vegetarian') {
+        return dishes.filter((dish) => dish.vegetarian);
+    }
+    if (filter === 'cheap') {
+        return dishes.filter((dish) => dish.price < 150);
+    }
+    return dishes;
 }
 
 // TODO 3: Draw the menu list.
 // a) Empty the list: menuList.replaceChildren()
 // b) For every dish from filterDishes(menu, activeFilter), create an <li> with createDishItem and append it.
 function renderMenu() {
+    menuList.replaceChildren();
+    filterDishes(menu, activeFilter).forEach((dish) => {
+        menuList.append(createDishItem(dish));
+    });
 
+    // TODO 6 (bonus)
+    filters.querySelectorAll('.filter-button').forEach((button) => {
+        const count = filterDishes(menu, button.dataset.filter).length;
+        button.textContent = `${filterLabels[button.dataset.filter]} (${count})`;
+    });
 }
 
 // TODO 4: ONE click listener on the whole list (event delegation), not one per button.
@@ -89,7 +120,15 @@ function renderMenu() {
 // a) Listen for "click" on menuList.
 // b) Find the clicked button: event.target.closest('.add-button'). If there is none, return.
 // c) Find the dish with findById, add it to the order, and call render().
-
+menuList.addEventListener('click', (event) => {
+    const button = event.target.closest('.add-button');
+    if (!button) {
+        return;
+    }
+    const dish = findById(menu, button.dataset.id);
+    order = [...order, dish];
+    render();
+});
 
 // TODO 5: The filter buttons (also with ONE listener, on `filters`).
 // a) Find the clicked button: event.target.closest('.filter-button'). If there is none, return.
@@ -97,12 +136,26 @@ function renderMenu() {
 // c) Mark only the clicked button as active: for every .filter-button,
 //    button.classList.toggle('active', button.dataset.filter === activeFilter)
 // d) Call render().
-
+filters.addEventListener('click', (event) => {
+    const clicked = event.target.closest('.filter-button');
+    if (!clicked) {
+        return;
+    }
+    activeFilter = clicked.dataset.filter;
+    filters.querySelectorAll('.filter-button').forEach((button) => {
+        button.classList.toggle('active', button.dataset.filter === activeFilter);
+    });
+    render();
+});
 
 // TODO 6 (bonus): Show how many dishes each filter button matches: "Vegetarian (4)".
 // Tip: store the original label in a data-label attribute first, or build it from a small object of labels.
 // Reuse filterDishes. Should this happen once, or on every render? What if `menu` changes?
-
+const filterLabels = {
+    all: 'All',
+    vegetarian: 'Vegetarian',
+    cheap: 'Under 150 kr',
+};
 
 // ---------- Start ----------
 render();
