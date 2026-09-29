@@ -63,7 +63,7 @@ function render() {
 // TODO 1: Create and return an <li> for one dish. Do not add it to the page here.
 // a) const item = document.createElement('li');
 // b) Text: describeDish(dish). Class: "day-background" if vegetarian, else "week-background".
-// c) If the dish is in the order, also add the class "in-order". (order.some(...))
+// c) Count how many of this dish are in the order (order.filter(...).length). If more than 0, also add the class "in-order".
 // d) Create a <button> with the class "add-button", type "button", and data-id set to the dish id
 //    (button.dataset.id = dish.id). Its text: "Add", or "Add (2)" when 2 of this dish are in the order.
 // e) Put the button inside the <li> (item.append(button)) and return the <li>.
