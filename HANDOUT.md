@@ -1,103 +1,106 @@
-# Demo 101-2: Rendering From Data, in TypeScript (Student Handout)
+# Demo 101-3: Forms and localStorage, in TypeScript (Student Handout)
 
 ## Goal
 
-Until now every dish was written twice: once in `menu.ts` and once as an `<li>` in the HTML.
-Now the HTML list is empty, and the script builds it from the `menu` array. You will:
+Add new dishes with a form, and keep the dishes, the order and the theme after a reload. You will:
 
-- create elements with `document.createElement`, with typed functions
-- filter the menu with buttons ("All", "Vegetarian", "Under 150 kr"), using a union type for the filter
-- use **one** click listener for many buttons (event delegation), and narrow `event.target`
-- check data that comes from the HTML with a **type guard**
+- read a form with `FormData`, and turn its values into a typed `NewDish`
+- validate it and return a typed result: either a dish or an error
+- save the state in `localStorage`, and load it back **safely**
 
-The big idea: **the page is a function of the state.** Handlers change the state (`order`, `activeFilter`),
-then `render()` redraws the page from it. In demo 101-1 you added types to existing code. This time you write new code
-**with** types.
+The theme of this demo: **data from outside your code**. A form, `localStorage`, a URL or an API: TypeScript cannot know
+what is in them. Its types are gone at runtime (demo 101-1). So you check the data at runtime, once, at the border,
+and from then on it is typed.
 
 ## Setup
 
-1. Make sure you are on the branch `101-2-ts-render-data-start`.
+1. Make sure you are on the branch `101-3-ts-forms-storage-start`.
 2. Run `npm install` (only if `node_modules` is missing), then `npm run dev`. Keep the terminal open.
-3. Open `index.html` in your browser. The menu is gone! In your editor, `<ol id="menu-list">` is empty.
-4. You only edit `src/index.ts`. `src/menu.ts` is provided: `Dish`, `menu`, `formatPrice`, `describeDish`, `getTotal`, `findById`.
-5. After each change: save, check the terminal, reload the page.
+3. Open `index.html` in your browser. Everything from demo 101-2 works. There is a new "Add a dish" form, but it does
+   nothing useful yet, and nothing is saved after a reload.
+4. You only edit `src/index.ts`. `src/menu.ts` is the same as in demo 101-2.
+5. Open DevTools > **Application** > **Local Storage** to see what is saved.
 
 ## Part 1: Hover and predict (10 min)
 
-Open `src/playground.ts`. Everything compiles. For each variable, write the type you expect **before** you hover over it.
+Open `src/playground.ts`. For each one, write the type you expect **before** you hover over it.
 
 | # | Code | My prediction | What TypeScript says |
 | --- | --- | --- | --- |
-| 1 | `document.createElement('li')` | | |
-| 2 | `document.createElement('button')` | | |
-| 3 | `document.querySelector('li')` | | |
-| 4 | `document.querySelector('#menu-list')` | | |
-| 5 | `menu.filter((dish) => dish.vegetarian)` | | |
-| 6 | `menu.map((dish) => dish.name)` | | |
-| 7 | `menu.find((dish) => dish.price < 100)` | | |
-| 8 | `const t8 = 'all'` | | |
-| 9 | `let t9 = 'all'` | | |
-| 10 | `['all', 'vegetarian', 'cheap']` | | |
-| 11 | `['all', 'vegetarian', 'cheap'] as const` | | |
-| 12 | `event.target` in a click listener | | |
-| 13 | `t12` inside `if (t12 instanceof HTMLButtonElement)` | | |
-| 14 | `t12.dataset.filter` | | |
+| 1 | `new FormData(form).get('name')` | | |
+| 2 | `localStorage.getItem('spk-dishes')` | | |
+| 3 | `JSON.parse(...)`. Why does `t3.this.does.not.exist()` compile? | | |
+| 4 | The same, typed as `unknown`. Uncomment `t4.length` | | |
+| 5 | `t4` inside `if (Array.isArray(t4))` | | |
+| 6 | `Omit<Dish, 'id'>`, `Pick<Dish, 'name' \| 'price'>`, `Partial<Dish>` | | |
+| 7 | `result` before and inside `if (result.ok)` | | |
+| 8 | `[1, undefined, 3].filter((x) => x !== undefined)` | | |
 
-Why are 3 and 4 different? Why are 8 and 9 different?
+Then type these in the browser Console (JavaScript, not types):
 
-## Part 2: Render the menu
+| # | Type this | My prediction | What happened |
+| --- | --- | --- | --- |
+| 9 | `Number('')` and `Number('  ')` | | |
+| 10 | `Number(null)` and `Number('12abc')` | | |
 
-Find the `TODO` comments in `src/index.ts`. Give every function you write parameter types and a return type.
+## Part 2: Do this after TODO 5a
+
+1. In the Console: `localStorage.setItem('spk-dishes', '[{"name":"Hack","price":"free"}]')`
+2. Reload the page. What does the menu show? Click "Add". Did TypeScript warn you about any of this?
+3. Finish TODO 5 (the safe version), then reload again. What happens now?
+4. Try `localStorage.setItem('spk-dishes', '{oops')` and reload. Does the page still work?
+
+## Part 3: The TODOs
+
+Find the `TODO` comments in `src/index.ts`.
 
 | # | Task | Concept | Done |
 | --- | --- | --- | --- |
-| 1 | `type Filter` for `activeFilter` | Literal union types | |
-| 2 | `createDishItem(dish)` returns an `<li>` with an Add button | `createElement`, `HTMLLIElement`, `dataset` is strings only | |
-| 3 | `filterDishes(dishes, filter)` | `switch` on a union, exhaustiveness | |
-| 4 | `renderMenu()` draws the list | `void`, `replaceChildren` | |
-| 5 | One click listener on the list for all Add buttons | Event delegation, narrowing with `instanceof` | |
-| 6 | Filter buttons, with an `isFilter` type guard | `value is Filter`, `unknown` | |
-| 7 | Bonus: "Vegetarian (4)" on the filter buttons | `Record<Filter, string>` | |
-| 8 | Bonus: a "Spicy" filter | Refactoring with the compiler | |
+| 1 | `readDishForm(form)` returns a `NewDish` | `Omit<Dish, 'id'>`, `FormDataEntryValue`, `typeof` narrowing | |
+| 2 | `validateDish` returns a `Validation` | Discriminated unions: `{ ok: true; ... } \| { ok: false; ... }` | |
+| 3 | Handle the form submit | Narrowing on `result.ok`, spread into a `Dish` | |
+| 4 | `saveState()` | `JSON.stringify`, `as const` keys | |
+| 5 | `loadState()`: the dishes | `any` vs `unknown`, the `isDish` type guard, `try / catch` | |
+| 6 | `loadState()`: the order | Checking arrays, removing `undefined` | |
+| 7 | Bonus: remember the theme | Reusing `isTheme` | |
+| 8 | Bonus: "Reset menu" | `localStorage.removeItem` | |
 
 ## Checklist
 
 - [ ] `npm run dev` shows `Found 0 errors`
-- [ ] The menu shows all 7 dishes with their price, like before
-- [ ] "Add" works, the dish is highlighted and the button shows "Add (2)" after two clicks
-- [ ] "Vegetarian" shows 4 dishes, "Under 150 kr" shows 3, "All" shows 7
-- [ ] Adding a dish while filtered, then going back to "All", keeps the order and the highlights
-- [ ] "Clear order" resets everything
-- [ ] There is only one `addEventListener` for all the Add buttons
-- [ ] I did not use `any`, `as` or `!`
+- [ ] An empty name, a missing price, a price of 0 and a duplicate name (" pizza ") each show the right error
+- [ ] "Tacos", 119, spicy: it appears in the menu, and "Spicy" shows 2 dishes
+- [ ] After a reload, the new dish, the order and the theme are still there
+- [ ] The broken data from Part 2 does not break the page (the default menu is shown instead)
+- [ ] `JSON.parse` is never assigned directly to a typed variable
+- [ ] I did not use `any`, `!` or `as` (the provided `as const` is fine: it is not a cast)
 - [ ] No red errors in the Console
 
 ## Questions to answer
 
-1. `document.querySelector('li')` knows it is an `HTMLLIElement`, but `querySelector('#menu-list')` does not. Why?
-2. Why is `event.target` an `EventTarget | null` and not an `HTMLButtonElement`? What else could the user click on?
-3. `button.dataset.id = dish.id` is an error. What does an HTML attribute store? What did JavaScript do in 100-6?
-4. TypeScript checks your `.ts` files. Does it check `index.html`? What happens if a `data-filter` in the HTML has a typo?
-5. A type guard (`value is Filter`) is a function you write yourself. What happens if it is wrong? Who checks it?
-6. In TODO 3, what happened when you removed a `case`? How is that useful when the app grows?
-7. Why did 100-5 need to remove the `in-order` classes one by one, and this version does not?
+1. `FormData.get()` can return a `File`. When? Why must you handle it even if your form has no file input?
+2. Why is `Omit<Dish, 'id'>` better than writing a `NewDish` type by hand? What happens to `NewDish` if `Dish` gets a new property?
+3. Compare `validateDish` returning `''` or an error (demo 100-7) with returning a `Validation`. Which mistakes are now impossible?
+4. `JSON.parse` returns `any`. Why is that worse than `unknown`?
+5. After `Array.isArray(parsed)`, `parsed` is `any[]`. Why is `.every(isDish)` still needed?
+6. Your `isDish` checks `id`, `name`, `price` and `vegetarian`. What happens if a saved dish has `spicy: "yes"`?
+7. In a backend, where would you do the same kind of check? (Request bodies, config files, messages from a queue...)
 
 ## Challenges (if you finish early)
 
-- Show a message "No dishes match this filter" when the list is empty.
-- Add a "Sort by price" button. Remember: do not change `menu` (demo 100-4). Which type does the sort state need?
-- In TODO 8, the compiler did not find `isFilter`. Fix that: write the filters once as an array,
-  `const FILTERS = ['all', 'vegetarian', 'cheap'] as const`, then derive the type from it:
-  `type Filter = (typeof FILTERS)[number]`. Can `isFilter` use `FILTERS` too?
-- Use `never` to make the exhaustiveness check explicit: in `filterDishes`, add a `default:` case with
-  `const unreachable: never = filter;` and `throw new Error(...)`. When does it give an error?
+- Make `isDish` also check the optional properties: `spicy` must be a boolean **or missing**, the same for `discount`.
+- Show the error next to the right input. Change `Validation` so the error says which field: `{ ok: false; field: keyof NewDish; error: string }`.
+- Write a generic `readStorage<T>(key: string, isValid: (value: unknown) => value is T): T | undefined` and use it for
+  the dishes and the theme.
+- Add a `discount` field to the form (optional, 0-100). Which types and checks change?
+- Look up [Zod](https://zod.dev): it writes the type and the runtime check from one definition. Compare it with your `isDish`.
 
 ## Useful links
 
-- [TypeScript Handbook: Literal types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types)
-- [TypeScript Handbook: Narrowing with instanceof](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#instanceof-narrowing)
-- [TypeScript Handbook: Type predicates (type guards)](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates)
-- [TypeScript Handbook: Exhaustiveness checking](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking)
-- [TypeScript: Record<Keys, Type>](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)
-- [MDN: Document.createElement](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
-- [MDN: Event delegation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling#event_delegation)
+- [TypeScript Handbook: The unknown type](https://www.typescriptlang.org/docs/handbook/2/functions.html#unknown)
+- [TypeScript Handbook: Discriminated unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions)
+- [TypeScript Handbook: The in operator narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#the-in-operator-narrowing)
+- [TypeScript: Utility types (Omit, Pick, Partial)](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [MDN: FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData)
+- [MDN: Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- [MDN: JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse)
