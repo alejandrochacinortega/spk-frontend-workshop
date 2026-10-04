@@ -1,20 +1,20 @@
 /* ==========================================================
-   DEMO 101-1: TYPESCRIPT BASICS (part 2 of 2: the page)
-   This is the solution of demo 100-5, renamed to .ts.
-   It works in the browser, but the compiler finds many
-   places where it COULD break. Fix every error without
-   changing what the page does.
-   Do the TODOs in menu.ts first: many errors here disappear.
+   DEMO 101-2: RENDERING FROM DATA, IN TYPESCRIPT
+   Goal: build the menu list from the `menu` array (menu.ts),
+   instead of writing every <li> by hand in the HTML.
+   - The page is drawn from two pieces of state: `order` and `activeFilter`.
+   - render() redraws everything from that state.
+   - Event handlers only change the state, then call render().
+   This time you write new code: give every function you write
+   parameter types and a return type.
+   Keep `npm run dev` running, save, reload the page.
    ========================================================== */
 
-// ---------- Provided ----------
-// <html> is the root element. data-theme="dark" on it activates the dark theme (demo 100-3).
+// ---------- Provided (from demo 101-1) ----------
 const root = document.documentElement;
 
-// TODO 10 (bonus)
 type Theme = 'light' | 'dark';
 
-// Returns "dark" or "light": the theme chosen with the button, or else the operating system setting.
 function getCurrentTheme(): Theme {
     const chosen = root.dataset.theme;
     if (chosen === 'light' || chosen === 'dark') {
@@ -23,11 +23,7 @@ function getCurrentTheme(): Theme {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-// Like document.querySelector, but it checks the element at runtime:
-// it throws if nothing matches, or if the element is not of the expected type.
-// So the result is never null, and has the right type:
-//   getElement('#clear-order', HTMLButtonElement)  ->  HTMLButtonElement
-// <T extends Element> is a generic, like List<T> in Java or C#.
+// Like document.querySelector, but it throws if nothing matches or the element has the wrong type.
 function getElement<T extends Element>(selector: string, type: new () => T): T {
     const element = document.querySelector(selector);
     if (!(element instanceof type)) {
@@ -36,80 +32,112 @@ function getElement<T extends Element>(selector: string, type: new () => T): T {
     return element;
 }
 
-// ---------- TODOs ----------
-
-// TODO 4: What is the type of `order`? Hover over it in your editor. Give it the right type.
-// The dishes in the order. Never push to it: create a new array instead (demo 100-4).
-let order: Dish[] = [];
-
-// TODO 5: `themeToggle` is possibly 'null'. Why? Fix it with an if check:
-// if the button is missing, throw an Error with a clear message.
-// After the if, hover over themeToggle again: what is its type now?
-// (Also try `themeToggle?.addEventListener` and `themeToggle!.addEventListener`. What is the difference?)
-const themeToggle = document.querySelector('#theme-toggle');
-if (!themeToggle) {
-    throw new Error('Missing #theme-toggle');
-}
+const themeToggle = getElement('#theme-toggle', HTMLButtonElement);
 themeToggle.addEventListener('click', () => {
     root.dataset.theme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
 });
 
-// TODO 6: Writing an if for every element gets repetitive.
-// Select these three elements with getElement (Provided, above) instead of querySelector.
-// The <span>, <p> and <strong> elements are all HTMLElement.
+// ---------- State ----------
+
+// TODO 1: The filter type.
+// a) Hover over `activeFilter`: which type did TypeScript infer? Would it catch activeFilter = 'vegetarain'?
+// b) Create a type with only the three valid values: type Filter = 'all' | 'vegetarian' | 'cheap';
+// c) Use it: let activeFilter: Filter = 'all';
+let order: Dish[] = [];
+let activeFilter = 'all';
+
+// ---------- Elements ----------
+const menuList = getElement('#menu-list', HTMLOListElement);
+const filters = getElement('#filters', HTMLDivElement);
 const orderCount = getElement('#order-count', HTMLElement);
 const orderItems = getElement('#order-items', HTMLElement);
 const orderTotal = getElement('#order-total', HTMLElement);
+const clearButton = getElement('#clear-order', HTMLButtonElement);
 
-// TODO 7: Fix the error in renderOrder(). JavaScript accepted it silently. What did it do?
-// Make the order section match the `order` array.
-function renderOrder() {
+// ---------- Provided: the order section and the filter buttons ----------
+function renderOrder(): void {
     orderCount.textContent = String(order.length);
     orderItems.textContent = order.length === 0
         ? 'Nothing yet'
         : order.map((dish) => dish.name).join(', ');
     orderTotal.textContent = `${getTotal(order)} kr`;
-
     clearButton.disabled = order.length === 0;
+}
 
-    addButtons.forEach((button) => {
-        const count = order.filter((dish) => dish.id === Number(button.dataset.id)).length;
-        button.textContent = count === 0 ? 'Add' : `Add (${count})`;
+// Marks the button of the active filter. The page is derived from the state, also here.
+function renderFilters(): void {
+    filters.querySelectorAll<HTMLButtonElement>('.filter-button').forEach((button) => {
+        button.classList.toggle('active', button.dataset.filter === activeFilter);
     });
 }
 
-// TODO 8: The "Add" buttons. Several errors here:
-// a) querySelectorAll returns a list of Element, and Element has no `dataset`.
-//    Use querySelectorAll<HTMLButtonElement>('.add-button'). Is that checked at runtime, like getElement?
-// b) event.currentTarget is an EventTarget | null. Use the `button` variable instead: what is its type?
-// c) What is the type of `dish`? What should happen if no dish has this id?
-// d) closest('li') can return null. Use optional chaining: ?.
-const addButtons = document.querySelectorAll<HTMLButtonElement>('.add-button');
-addButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        const dish = findById(menu, Number(button.dataset.id));
-        if (!dish) {
-            console.error(`No dish with id ${button.dataset.id}`);
-            return;
-        }
-        order = [...order, dish];
-        button.closest('li')?.classList.add('in-order');
-        renderOrder();
-    });
-});
-
-// TODO 9: The "Clear order" button. Which type do you need for `.disabled` in renderOrder() to work?
-const clearButton = getElement('#clear-order', HTMLButtonElement);
+// Clearing is simpler than in demo 100-5: change the state and redraw.
 clearButton.addEventListener('click', () => {
     order = [];
-    document.querySelectorAll('.in-order').forEach((item) => item.classList.remove('in-order'));
-    renderOrder();
+    render();
 });
 
-renderOrder();
+// Redraw the whole page from the state.
+function render(): void {
+    renderOrder();
+    renderFilters();
+    renderMenu();
+}
 
-// TODO 10 (bonus): getCurrentTheme() can return any string. Make that impossible.
-// a) Create a type: type Theme = 'light' | 'dark';
-// b) Add the return type: function getCurrentTheme(): Theme
-// c) Fix the new error. Tip: check that root.dataset.theme is 'light' or 'dark' before you return it.
-// (Solution: at the top of the file, next to getCurrentTheme.)
+// ---------- TODOs ----------
+
+// TODO 2: Create and return an <li> for one dish. Do not add it to the page here.
+// a) Add the types: createDishItem(dish: Dish): ???  Hover over document.createElement('li') to find the return type.
+// b) Text: describeDish(dish). Class: "day-background" if vegetarian, else "week-background".
+// c) Count how many of this dish are in the order. If more than 0, also add the class "in-order".
+// d) Create a <button> with the class "add-button", type "button", and data-id set to the dish id.
+//    Its text: "Add", or "Add (2)" when 2 of this dish are in the order.
+//    TypeScript will complain about data-id. Why? (Hint: what does the HTML attribute store?)
+// e) Put the button inside the <li> (item.append(button)) and return the <li>.
+function createDishItem(dish) {
+    throw new Error('TODO 2: not implemented');
+}
+
+// TODO 3: Return the dishes that match the filter. Do not change `dishes`.
+// "all" -> every dish, "vegetarian" -> vegetarian dishes, "cheap" -> price under 150.
+// a) Add the types. The filter parameter is a Filter, not a string.
+// b) Use a switch (filter) { case 'all': ... }. Inside a case, type `filter.` : what does the editor suggest?
+// c) Try: remove one case. What does TypeScript say? Put it back.
+function filterDishes(dishes, filter) {
+    throw new Error('TODO 3: not implemented');
+}
+
+// TODO 4: Draw the menu list. Return type: void (it returns nothing).
+// a) Empty the list: menuList.replaceChildren()
+// b) For every dish from filterDishes(menu, activeFilter), append createDishItem(dish).
+function renderMenu() {
+    // TODO 4
+}
+
+// TODO 5: ONE click listener on the whole list (event delegation), not one per button.
+// a) Listen for "click" on menuList.
+// b) event.target is an EventTarget | null: it can be any node, or a text node, or null.
+//    Narrow it with: if (!(event.target instanceof Element)) return;
+// c) Find the clicked button: event.target.closest('.add-button'). Check that it is an HTMLButtonElement.
+// d) Find the dish with findById (it wants a number!). If there is no dish, return.
+// e) Add it to the order and call render().
+
+// TODO 6: The filter buttons (also with ONE listener, on `filters`).
+// a) Find the clicked .filter-button, like in TODO 5.
+// b) Its data-filter is a string | undefined, but activeFilter is a Filter. TypeScript cannot read the HTML.
+//    Write a type guard that checks it at runtime:
+//      function isFilter(value: unknown): value is Filter { ... }
+//    It returns true if value is 'all', 'vegetarian' or 'cheap'.
+// c) If isFilter(...) is true, set activeFilter and call render(). Hover: what is the type inside the if?
+
+// TODO 7 (bonus): Show how many dishes each filter button matches: "Vegetarian (4)".
+// a) The labels: const filterLabels: Record<Filter, string> = { all: 'All', ... }
+//    Try leaving one out. What happens?
+// b) In renderFilters(), set each button's text to `${label} (${count})`. Reuse filterDishes and isFilter.
+
+// TODO 8 (bonus): Add a fourth filter "Spicy" (dishes with spicy: true).
+// a) Add 'spicy' to the Filter type first, then follow the compiler errors. Where does it lead you?
+// b) Which places did the compiler NOT find? (Hint: index.html, and... test the button.)
+
+// ---------- Start ----------
+render();

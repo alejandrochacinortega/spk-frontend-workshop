@@ -1,19 +1,9 @@
 /* ==========================================================
-   DEMO 101-1: TYPESCRIPT BASICS (part 1 of 2: the data)
-   This is menu.js from demo 100-5, renamed to .ts.
-   The code is the same, but the compiler now checks it.
-   Start `npm run dev` and fix the errors, one TODO at a time.
-   Both files are still loaded with <script> tags (index.html
-   loads dist/menu.js, then dist/index.js), so index.ts can
-   use everything declared here.
+   Provided: the typed data and functions from demo 101-1,
+   plus formatPrice and describeDish. Do not edit.
+   index.ts can use everything here because both files are
+   loaded with <script> tags, in this order.
    ========================================================== */
-
-// TODO 1: Describe what a dish looks like.
-// a) Create a type `Dish` with: id (number), name (string), price (number), vegetarian (boolean),
-//    and the optional properties spicy (boolean) and discount (number). Optional = `spicy?: boolean`.
-// b) Tell TypeScript that `menu` is a list of dishes: `const menu: Dish[] = [...]`
-// c) Two dishes now have errors. These bugs were already here in JavaScript!
-//    Before you fix them: open the page, add Pizza and Sushi, and look at the total. Then add Fiskegrateng.
 
 type Dish = {
     id: number;
@@ -34,16 +24,26 @@ const menu: Dish[] = [
     { id: 7, name: 'Sushi', price: 229, vegetarian: false, discount: 0 },
 ];
 
-// TODO 2: Add types to the parameters and the return value.
+// 129 -> "129 kr", 0 -> "Free".
+function formatPrice(price: number): string {
+    if (price === 0) {
+        return 'Free';
+    }
+    return `${price} kr`;
+}
+
+// "Focaccia (89 kr)" or "Daal med naan (139 kr, spicy)".
+function describeDish(dish: Dish): string {
+    const { name, price, spicy = false } = dish;
+    const extra = spicy ? ', spicy' : '';
+    return `${name} (${formatPrice(price)}${extra})`;
+}
+
 // Sum of all prices. An empty list -> 0.
 function getTotal(dishes: Dish[]): number {
     return dishes.reduce((sum, dish) => sum + dish.price, 0);
 }
 
-// TODO 3: Add types to findById.
-// In demo 100-4 the id could be a number (3) or a string ("3"), so we used Number(id).
-// Choose: `id: number | string` (and keep Number), or `id: number` (and convert where you read data-id).
-// What should the return type be when no dish has this id?
 // The dish with this id, or undefined.
 function findById(dishes: Dish[], id: number): Dish | undefined {
     return dishes.find((dish) => dish.id === id);
