@@ -1,101 +1,103 @@
-# Demo 101-1: TypeScript Basics (Student Handout)
+# Demo 101-2: Rendering From Data, in TypeScript (Student Handout)
 
 ## Goal
 
-Turn the JavaScript restaurant page from demo 100-5 into TypeScript. You will:
+Until now every dish was written twice: once in `menu.ts` and once as an `<li>` in the HTML.
+Now the HTML list is empty, and the script builds it from the `menu` array. You will:
 
-- set up the TypeScript compiler and run it in watch mode
-- describe the menu data with a type, and find two bugs that were already there
-- fix every compiler error in the page code without changing what the page does
+- create elements with `document.createElement`, with typed functions
+- filter the menu with buttons ("All", "Vegetarian", "Under 150 kr"), using a union type for the filter
+- use **one** click listener for many buttons (event delegation), and narrow `event.target`
+- check data that comes from the HTML with a **type guard**
 
-TypeScript is JavaScript with types. The browser cannot run it: the compiler checks your `.ts` files and writes
-plain `.js` files. The types are only there at compile time. They are removed from the output.
+The big idea: **the page is a function of the state.** Handlers change the state (`order`, `activeFilter`),
+then `render()` redraws the page from it. In demo 101-1 you added types to existing code. This time you write new code
+**with** types.
 
 ## Setup
 
-1. Install Node.js (version 20 or newer) if you don't have it: `node -v` in a terminal.
-2. Make sure you are on the branch `101-1-ts-basics-start`.
-3. In the project folder, run `npm install` (once), then `npm run dev`. Keep this terminal open: it recompiles every
-   time you save, and lists the errors.
-4. Open `index.html` in your browser, like before. It loads the compiled files from `dist/`.
-5. You edit `src/menu.ts` and `src/index.ts`. Never edit `dist/`: it is overwritten on every save.
-6. After each change: save, check the terminal, reload the page.
+1. Make sure you are on the branch `101-2-ts-render-data-start`.
+2. Run `npm install` (only if `node_modules` is missing), then `npm run dev`. Keep the terminal open.
+3. Open `index.html` in your browser. The menu is gone! In your editor, `<ol id="menu-list">` is empty.
+4. You only edit `src/index.ts`. `src/menu.ts` is provided: `Dish`, `menu`, `formatPrice`, `describeDish`, `getTotal`, `findById`.
+5. After each change: save, check the terminal, reload the page.
 
-The page works even with errors: by default, the compiler reports errors but still writes the `.js` files.
+## Part 1: Hover and predict (10 min)
 
-## Part 1: The playground (10 min)
+Open `src/playground.ts`. Everything compiles. For each variable, write the type you expect **before** you hover over it.
 
-Open `src/playground.ts`. The page does not load it. Uncomment **one** example at a time (Cmd+/ or Ctrl+/),
-write your prediction **before** you look at the editor, then comment it out again.
-
-| # | Example | Error or OK? My prediction | What happened |
+| # | Code | My prediction | What TypeScript says |
 | --- | --- | --- | --- |
-| 1 | `price = '89'` after `let price = 89` | | |
-| 2 | `pizza.prize` | | |
-| 3 | `function double(x)` | | |
-| 4 | `10 + '5'` and `'10' * 2` | | |
-| 5 | `maybeName.length` when it can be `null` | | |
-| 6 | `text.toUpperCase()` when `text` is optional | | |
-| 7 | `anything.toFixed(2)` when it is `any` | | |
-| 8 | `something.toUpperCase()` when it is `unknown`, then the `typeof` version | | |
-| 9 | Assigning a `Drink` to a `Dish` variable | | |
-| 10 | The same object written directly as a `Dish` | | |
-| 11 | `size = 'medium'` | | |
+| 1 | `document.createElement('li')` | | |
+| 2 | `document.createElement('button')` | | |
+| 3 | `document.querySelector('li')` | | |
+| 4 | `document.querySelector('#menu-list')` | | |
+| 5 | `menu.filter((dish) => dish.vegetarian)` | | |
+| 6 | `menu.map((dish) => dish.name)` | | |
+| 7 | `menu.find((dish) => dish.price < 100)` | | |
+| 8 | `const t8 = 'all'` | | |
+| 9 | `let t9 = 'all'` | | |
+| 10 | `['all', 'vegetarian', 'cheap']` | | |
+| 11 | `['all', 'vegetarian', 'cheap'] as const` | | |
+| 12 | `event.target` in a click listener | | |
+| 13 | `t12` inside `if (t12 instanceof HTMLButtonElement)` | | |
+| 14 | `t12.dataset.filter` | | |
 
-## Part 2: Type the app
+Why are 3 and 4 different? Why are 8 and 9 different?
 
-Find the `TODO` comments. Start with `src/menu.ts`, then `src/index.ts`. Count the errors in the terminal before
-you start, and watch the number go down.
+## Part 2: Render the menu
 
-| # | File | Task | Concept | Done |
-| --- | --- | --- | --- | --- |
-| 1 | menu.ts | Create the `Dish` type and use it for `menu`. Find the two bugs | Object types, optional properties `?` | |
-| 2 | menu.ts | Type `getTotal` | Parameter and return types, `Dish[]` | |
-| 3 | menu.ts | Type `findById` | `number \| string`, `Dish \| undefined` | |
-| 4 | index.ts | Give `order` a type | Inference, `any[]` | |
-| 5 | index.ts | The theme button can be `null` | Narrowing with `if`, `?.` and `!` | |
-| 6 | index.ts | Select the order elements with `getElement` | Generics, runtime checks | |
-| 7 | index.ts | Fix `renderOrder()` | `textContent` is a `string` | |
-| 8 | index.ts | Fix the "Add" buttons | `querySelectorAll<T>`, `EventTarget`, handling `undefined` | |
-| 9 | index.ts | Fix the "Clear order" button | `Element` vs `HTMLButtonElement` | |
-| 10 | index.ts | Bonus: `getCurrentTheme()` returns only `'light'` or `'dark'` | Literal union types | |
+Find the `TODO` comments in `src/index.ts`. Give every function you write parameter types and a return type.
+
+| # | Task | Concept | Done |
+| --- | --- | --- | --- |
+| 1 | `type Filter` for `activeFilter` | Literal union types | |
+| 2 | `createDishItem(dish)` returns an `<li>` with an Add button | `createElement`, `HTMLLIElement`, `dataset` is strings only | |
+| 3 | `filterDishes(dishes, filter)` | `switch` on a union, exhaustiveness | |
+| 4 | `renderMenu()` draws the list | `void`, `replaceChildren` | |
+| 5 | One click listener on the list for all Add buttons | Event delegation, narrowing with `instanceof` | |
+| 6 | Filter buttons, with an `isFilter` type guard | `value is Filter`, `unknown` | |
+| 7 | Bonus: "Vegetarian (4)" on the filter buttons | `Record<Filter, string>` | |
+| 8 | Bonus: a "Spicy" filter | Refactoring with the compiler | |
 
 ## Checklist
 
 - [ ] `npm run dev` shows `Found 0 errors`
-- [ ] Adding Pizza and Sushi shows: 2 items, "Pizza, Sushi", 388 kr
-- [ ] Adding Fiskegrateng adds 199 kr
-- [ ] The theme button, the highlights and "Clear order" work like in demo 100-5
-- [ ] There are no red errors in the Console
-- [ ] I did not use `any`
-- [ ] I can explain every `!`, `?.` and `<...>` I wrote
+- [ ] The menu shows all 7 dishes with their price, like before
+- [ ] "Add" works, the dish is highlighted and the button shows "Add (2)" after two clicks
+- [ ] "Vegetarian" shows 4 dishes, "Under 150 kr" shows 3, "All" shows 7
+- [ ] Adding a dish while filtered, then going back to "All", keeps the order and the highlights
+- [ ] "Clear order" resets everything
+- [ ] There is only one `addEventListener` for all the Add buttons
+- [ ] I did not use `any`, `as` or `!`
+- [ ] No red errors in the Console
 
 ## Questions to answer
 
-1. Open `dist/menu.js`. What happened to your `Dish` type? What does that mean for data from a form, a URL or an API?
-2. The bugs in `menu` existed in demo 100-5 too. Why did JavaScript not tell you? What did the page show instead?
-3. `querySelector` returns `Element | null`. Why can TypeScript not know that `#theme-toggle` exists?
-4. What is the difference between `if (!x) throw ...`, `x?.foo()` and `x!.foo()`? When would you use each one?
-5. `querySelectorAll<HTMLButtonElement>(...)` and `getElement(..., HTMLButtonElement)` both give you a button type.
-   Which one checks it, and which one only promises it?
-6. `findById` returns `Dish | undefined`. In demo 100-5, what happened when the id was not found?
-7. In Java or C#, a `Drink` is only a `Dish` if it says `extends` or `implements`. How is TypeScript different
-   (playground example 9)?
+1. `document.querySelector('li')` knows it is an `HTMLLIElement`, but `querySelector('#menu-list')` does not. Why?
+2. Why is `event.target` an `EventTarget | null` and not an `HTMLButtonElement`? What else could the user click on?
+3. `button.dataset.id = dish.id` is an error. What does an HTML attribute store? What did JavaScript do in 100-6?
+4. TypeScript checks your `.ts` files. Does it check `index.html`? What happens if a `data-filter` in the HTML has a typo?
+5. A type guard (`value is Filter`) is a function you write yourself. What happens if it is wrong? Who checks it?
+6. In TODO 3, what happened when you removed a `case`? How is that useful when the app grows?
+7. Why did 100-5 need to remove the `in-order` classes one by one, and this version does not?
 
 ## Challenges (if you finish early)
 
-- Use a `type` for an order line instead of repeating the same dish: `{ dish: Dish; quantity: number }`.
-  How many errors does that change create? Let the compiler guide you through the refactor.
-- Write `formatPrice(price: number): string` that returns `"388 kr"`, and use it in `renderOrder()`.
-- Set `"noEmitOnError": true` in `tsconfig.json` and add an error. What happens to the page?
-- Make `getTotal` use the discounts: a dish with `discount: 20` costs 20 % less. Which types help you here?
-- Rewrite the theme button with `getElement` too, and remove the `if`.
+- Show a message "No dishes match this filter" when the list is empty.
+- Add a "Sort by price" button. Remember: do not change `menu` (demo 100-4). Which type does the sort state need?
+- In TODO 8, the compiler did not find `isFilter`. Fix that: write the filters once as an array,
+  `const FILTERS = ['all', 'vegetarian', 'cheap'] as const`, then derive the type from it:
+  `type Filter = (typeof FILTERS)[number]`. Can `isFilter` use `FILTERS` too?
+- Use `never` to make the exhaustiveness check explicit: in `filterDishes`, add a `default:` case with
+  `const unreachable: never = filter;` and `throw new Error(...)`. When does it give an error?
 
 ## Useful links
 
-- [TypeScript Handbook: The Basics](https://www.typescriptlang.org/docs/handbook/2/basic-types.html)
-- [TypeScript Handbook: Everyday Types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
-- [TypeScript Handbook: Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
-- [TypeScript for Java/C# Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)
-- [TypeScript Playground (online)](https://www.typescriptlang.org/play)
-- [tsconfig reference](https://www.typescriptlang.org/tsconfig/)
+- [TypeScript Handbook: Literal types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types)
+- [TypeScript Handbook: Narrowing with instanceof](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#instanceof-narrowing)
+- [TypeScript Handbook: Type predicates (type guards)](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates)
+- [TypeScript Handbook: Exhaustiveness checking](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking)
+- [TypeScript: Record<Keys, Type>](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)
+- [MDN: Document.createElement](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
+- [MDN: Event delegation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling#event_delegation)
