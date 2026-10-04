@@ -183,6 +183,7 @@ themeToggle.addEventListener('click', () => {
     const theme: Theme = getCurrentTheme() === 'dark' ? 'light' : 'dark';
     root.dataset.theme = theme;
     // TODO 7a (bonus)
+    localStorage.setItem(STORAGE_KEYS.theme, theme);
 });
 
 // ---------- TODOs ----------
@@ -196,8 +197,18 @@ themeToggle.addEventListener('click', () => {
 //    Narrow it with typeof before you call .trim(). If it is not a string, use ''.
 // d) The price is a string too. Number(...) converts it. (What is Number('')? And Number(null)?)
 // e) A checkbox is only in the form data when it is checked: use data.has('vegetarian').
-function readDishForm(form) {
-    throw new Error('TODO 1: not implemented');
+type NewDish = Omit<Dish, 'id'>;
+
+function readDishForm(form: HTMLFormElement): NewDish {
+    const data = new FormData(form);
+    const name = data.get('name');
+    const price = data.get('price');
+    return {
+        name: typeof name === 'string' ? name.trim() : '',
+        price: typeof price === 'string' ? Number(price) : NaN,
+        vegetarian: data.has('vegetarian'),
+        spicy: data.has('spicy'),
+    };
 }
 
 // TODO 2: Validate the new dish. In demo 100-7 this returned an error message or ''.
@@ -208,8 +219,22 @@ function readDishForm(form) {
 // - a dish with the same name exists   -> "That dish is already on the menu." (ignore upper/lower case)
 // Return for example { ok: false, error: 'Please enter a name.' } or { ok: true, dish }.
 // Then give validateDish its types: (dish: NewDish, existingDishes: Dish[]): Validation
-function validateDish(dish, existingDishes) {
-    throw new Error('TODO 2: not implemented');
+type Validation = { ok: true; dish: NewDish } | { ok: false; error: string };
+
+function validateDish(dish: NewDish, existingDishes: Dish[]): Validation {
+    if (dish.name === '') {
+        return { ok: false, error: 'Please enter a name.' };
+    }
+    if (Number.isNaN(dish.price) || dish.price <= 0) {
+        return { ok: false, error: 'Price must be a number above 0.' };
+    }
+    const exists = existingDishes.some(
+        (existing) => existing.name.toLowerCase() === dish.name.toLowerCase(),
+    );
+    if (exists) {
+        return { ok: false, error: 'That dish is already on the menu.' };
+    }
+    return { ok: true, dish };
 }
 
 // TODO 3: Handle the form submit.
@@ -219,13 +244,30 @@ function validateDish(dish, existingDishes) {
 //    Try to use result.dish BEFORE that if. And after it. Hover over `result` in both places.
 // d) Give it a new id: one higher than the highest id in `dishes` (Math.max).
 // e) Add it to `dishes` (a new array!), clear the error, reset the form, and call render().
+dishForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const result = validateDish(readDishForm(dishForm), dishes);
+    if (!result.ok) {
+        formError.textContent = result.error;
+        return;
+    }
+
+    const id = Math.max(0, ...dishes.map((existing) => existing.id)) + 1;
+    dishes = [...dishes, { id, ...result.dish }];
+
+    formError.textContent = '';
+    dishForm.reset();
+    render();
+});
 
 // TODO 4: Save the state in localStorage. render() calls this every time.
 // localStorage only stores strings: use JSON.stringify.
 // - STORAGE_KEYS.dishes: the whole `dishes` array
 // - STORAGE_KEYS.order: only the ids of the dishes in the order, for example [4, 7, 4]
 function saveState(): void {
-    // TODO 4
+    localStorage.setItem(STORAGE_KEYS.dishes, JSON.stringify(dishes));
+    localStorage.setItem(STORAGE_KEYS.order, JSON.stringify(order.map((dish) => dish.id)));
 }
 
 // TODO 5: Load the dishes from localStorage. Called once when the page starts.
@@ -239,16 +281,52 @@ function saveState(): void {
 // d) Parse into `unknown`, not `any`:  const parsed: unknown = JSON.parse(saved);
 //    Only use it if Array.isArray(parsed) && parsed.every(isDish). Hover over `parsed` inside that if.
 // e) JSON.parse throws on broken text (try: localStorage.setItem('spk-dishes', '{oops')). Use try / catch.
-//    Tip: write a helper readStorage(key: string): unknown that does getItem + JSON.parse + try / catch,
-//    and returns undefined if there is nothing (valid) saved. You can reuse it in TODO 6.
+function isDish(value: unknown): value is Dish {
+    return (
+        typeof value === 'object' && value !== null &&
+        'id' in value && typeof value.id === 'number' &&
+        'name' in value && typeof value.name === 'string' &&
+        'price' in value && typeof value.price === 'number' &&
+        'vegetarian' in value && typeof value.vegetarian === 'boolean'
+    );
+}
+
+// Returns the saved value as `unknown`, or undefined if nothing is saved or the text is not valid JSON.
+function readStorage(key: string): unknown {
+    const saved = localStorage.getItem(key);
+    if (saved === null) {
+        return undefined;
+    }
+    try {
+        return JSON.parse(saved);
+    } catch (error) {
+        console.warn(`Could not parse ${key}, ignoring it.`, error);
+        return undefined;
+    }
+}
+
 function loadState(): void {
-    // TODO 5
+    const savedDishes = readStorage(STORAGE_KEYS.dishes);
+    if (Array.isArray(savedDishes) && savedDishes.every(isDish)) {
+        dishes = savedDishes;
+    }
 
     // TODO 6: The saved order is a list of ids. Check it the same way, then turn it back into dishes.
     // a) Only use it if it is an array. Keep only the numbers: .filter((id) => typeof id === 'number')
     // b) .map((id) => findById(dishes, id)), then remove the undefined ones. Hover over the result: is it Dish[]?
+    const savedOrder = readStorage(STORAGE_KEYS.order);
+    if (Array.isArray(savedOrder)) {
+        order = savedOrder
+            .filter((id) => typeof id === 'number')
+            .map((id) => findById(dishes, id))
+            .filter((dish) => dish !== undefined);
+    }
 
     // TODO 7b (bonus)
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+    if (isTheme(savedTheme)) {
+        root.dataset.theme = savedTheme;
+    }
 }
 
 // TODO 7 (bonus): Remember the theme.
@@ -257,6 +335,13 @@ function loadState(): void {
 
 // TODO 8 (bonus): The "Reset menu" button.
 // Remove the saved dishes and order (localStorage.removeItem), go back to `menu`, empty the order, and call render().
+resetButton.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEYS.dishes);
+    localStorage.removeItem(STORAGE_KEYS.order);
+    dishes = [...menu];
+    order = [];
+    render();
+});
 
 // ---------- Start ----------
 loadState();
