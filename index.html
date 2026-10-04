@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript SPK Demo</title>
+    <title>TypeScript SPK Demo</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <main>
         <header>
-            <!-- TODO 1 (index.js): make this button switch between the light and dark theme. -->
+            <!-- Switches between the light and dark theme (src/index.ts). -->
             <button id="theme-toggle" type="button">🌓 Toggle theme</button>
 
             <h1>Welcome to our Favorite foods 🍕 🥦 🥩 🍖</h1>
@@ -27,7 +27,7 @@
         </header>
         <hr>
         <section>
-            <!-- data-id matches the id of the dish in menu.js -->
+            <!-- data-id matches the id of the dish in src/menu.ts -->
             <ol id="menu-list">
                 <li id="deal-of-the-week">Focaccia <button class="add-button" type="button" data-id="1">Add</button></li>
                 <li class="deal-of-the-day">Pinsa <button class="add-button" type="button" data-id="2">Add</button></li>
@@ -62,12 +62,12 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 100-5 🤖️ </h2>
+            <h2>🤖️ End of Demo 101-1 🤖️ </h2>
         </footer>
     </main>
 
-    <!-- Demo 100-5: menu.js is provided (data and functions from demo 100-4), index.js is where you work -->
-    <script src="./menu.js"></script>
-    <script src="./index.js"></script>
+    <!-- Demo 101-1: the browser cannot run TypeScript. You edit src/*.ts, and `npm run dev` compiles them to dist/*.js -->
+    <script src="./dist/menu.js"></script>
+    <script src="./dist/index.js"></script>
 </body>
 </html>

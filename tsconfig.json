@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        // Which JavaScript version to write, and which built-in types exist (DOM = browser APIs).
+        "target": "es2022",
+        "lib": ["es2022", "dom", "dom.iterable"],
+
+        // Read the .ts files in src/, write the .js files to dist/ (index.html loads dist/).
+        "rootDir": "src",
+        "outDir": "dist",
+
+        // .map files let DevTools show your .ts code instead of the generated .js.
+        "sourceMap": true,
+
+        // All strict checks on: no implicit any, null is not a valid value for every type, and more.
+        "strict": true
+    },
+    "include": ["src"]
+}

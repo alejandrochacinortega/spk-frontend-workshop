@@ -1,0 +1,13 @@
+{
+  "name": "spk-frontend-workshop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SPK frontend workshop: TypeScript demos",
+  "scripts": {
+    "dev": "tsc --watch --preserveWatchOutput",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
