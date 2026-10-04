@@ -39,6 +39,32 @@
             <ol id="menu-list"></ol>
         </section>
         <hr>
+        <section id="new-dish">
+            <h2>Add a dish ✍️</h2>
+            <!-- novalidate: the browser does not validate, our TypeScript does (TODO 2) -->
+            <form id="dish-form" novalidate>
+                <label>
+                    Name
+                    <input name="name" type="text" required>
+                </label>
+                <label>
+                    Price (kr)
+                    <input name="price" type="number" min="1" required>
+                </label>
+                <label class="checkbox">
+                    <input name="vegetarian" type="checkbox">
+                    Vegetarian
+                </label>
+                <label class="checkbox">
+                    <input name="spicy" type="checkbox">
+                    Spicy
+                </label>
+                <button type="submit">Add to menu</button>
+            </form>
+            <p id="form-error" role="alert"></p>
+            <button id="reset-menu" type="button">Reset menu</button>
+        </section>
+        <hr>
         <section id="order">
             <h2>Your order 🧾</h2>
             <p>Items: <span id="order-count">0</span></p>
@@ -62,11 +88,11 @@
             <div id="alert">
                 <h2>😋 Our restaurant needs more dishes 😋 </h2>
             </div>
-            <h2>🤖️ End of Demo 101-2 🤖️ </h2>
+            <h2>🤖️ End of Demo 101-3 🤖️ </h2>
         </footer>
     </main>
 
-    <!-- Demo 101-2: you edit src/index.ts, and `npm run dev` compiles src/*.ts to dist/*.js -->
+    <!-- Demo 101-3: you edit src/index.ts, and `npm run dev` compiles src/*.ts to dist/*.js -->
     <script src="./dist/menu.js"></script>
     <script src="./dist/index.js"></script>
 </body>
