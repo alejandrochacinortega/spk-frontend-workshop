@@ -1,66 +1,60 @@
-# Demo 101-0a: Hello, TypeScript (Student Handout)
+# Demo 101-0b: Functions (Student Handout)
 
 ## Goal
 
-Write and run your first TypeScript file. You will:
+Write small functions with types. You will:
 
-- compile a `.ts` file to JavaScript and run it with Node
-- see that TypeScript knows the types of your variables without you writing them
-- read your first TypeScript errors
-
-TypeScript is JavaScript with types. Node and the browser cannot run TypeScript: the compiler (`tsc`) checks your
-code, then writes plain JavaScript to `dist/`.
+- give types to parameters and return values
+- see what TypeScript says when a function is called the wrong way
+- use an optional parameter and a function that returns nothing (`void`)
 
 ## Setup
 
-1. Install Node.js (version 20 or newer) if you don't have it: `node -v` in a terminal.
-2. Make sure you are on the branch `101-0a-ts-hello-start`.
-3. In the project folder, run `npm install` (once).
-4. Open `src/1-hello.ts`. Run it with `npm run hello`.
+1. Make sure you are on the branch `101-0b-ts-functions-start`.
+2. Run `npm install` if you have not done it yet.
+3. Open `src/2-functions.ts`. Run it with `npm run functions`.
 
-`npm run hello` runs `tsc` and then `node dist/1-hello.js`. If `tsc` finds an error, your code does **not** run.
+Each task has a `check(...)` line that is commented out. Write the function **above** it, uncomment the check, and run
+the file again. A check prints ✅ or ❌.
 
 ## Tasks
 
-Follow the `TODO` comments in `src/1-hello.ts`.
-
 | # | Task | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | Print "Hello from TypeScript!" | | |
-| 2 | Compare `dist/1-hello.js` with `src/1-hello.ts`. What changed? | | |
-| 3 | Hover over the four variables. What type does each one have? | | |
-| 4 | Print one sentence that uses all four variables | | |
-| 5a | `freeTables = 'twelve'` | Error / OK | |
-| 5b | `restaurant = 'Burger Palace'` | Error / OK | |
-| 5c | `dishes.push(42)` | Error / OK | |
-| 5d | `restaurant.toUppercase()` | Error / OK | |
-| 5e | `isOpen + 1` | Error / OK | |
-| 5f | `dishes[0] * 2` | Error / OK | |
-| 6a | `dishOfTheDay = 42` without a type | Error / OK | |
-| 6b | `dishOfTheDay = 42` with `: string` | Error / OK | |
+| 1a | `greet(42)` | Error / OK | |
+| 1b | `greet()` | Error / OK | |
+| 1c | `greet('Kari', 'Ola')` | Error / OK | |
+| 1d | `const length: number = greet('Kari')` | Error / OK | |
+| 2 | Write `addPrices(a, b)` | | |
+| 3 | `addPrices('89', 159)` | Error / OK | |
+| 4 | Write `formatPrice(price)` → `"89 kr"` | | |
+| 5 | Write `priceWithTip(price, tipPercent?)`. Type of `tipPercent` inside? | | |
+| 6 | Write the arrow function `isExpensive(price)` | | |
+| 7 | Write `printReceipt(dishes, total): void` | | |
 
 ## Checklist
 
-- [ ] `npm run hello` prints my hello message and my sentence
-- [ ] I read at least three error messages and can say what each one means
-- [ ] All the "break it" lines are commented out again
-- [ ] I can explain the difference between `src/` and `dist/`
+- [ ] `npm run functions` prints only ✅
+- [ ] Every parameter has a type
+- [ ] I used `formatPrice` inside `printReceipt`
+- [ ] I did not use `any`
 
 ## Questions to answer
 
-1. What does `npm run hello` do, step by step?
-2. Which of the lines in TODO 5 would plain JavaScript run without complaining? What would it print?
-3. The type of `restaurant` is `"SPK Bistro"`, not `string`. Why? (Hint: `const`.)
-4. When do you need to write a type yourself, and when can you let TypeScript guess?
+1. JavaScript lets you call a function with too many or too few arguments. What does TypeScript do?
+2. What is the type of an optional parameter inside the function? Why?
+3. Try removing the return type `: string` from `formatPrice`. Hover over the function name. Does TypeScript still know?
+   When is it still useful to write the return type?
+4. What would `printReceipt` return if you tried to use its result? What does `void` tell the person calling it?
 
 ## Challenges
 
-- Add a variable `price` with a decimal number, and print it with two decimals (`toFixed`).
-- Create an empty array: `const orders = [];`. Hover over it. Then write `const orders: string[] = [];`. What changed?
-- Run `npm run dev` in a second terminal. Now break something and save. What happens?
+- Give `tipPercent` a default value instead: `tipPercent = 10`. What is the type now, and what does `priceWithTip(200)` return?
+- Write `orderTotal(prices: number[]): number`, using `reduce` or a `for...of` loop.
+- Write `applyDiscount(price: number, discount: number): number` and make it return an error string when the discount is
+  bigger than the price. What return type do you need now?
 
 ## Links
 
-- [TypeScript for JavaScript programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+- [More on functions](https://www.typescriptlang.org/docs/handbook/2/functions.html)
 - [Everyday types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
-- [TypeScript playground](https://www.typescriptlang.org/play)

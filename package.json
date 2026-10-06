@@ -6,6 +6,7 @@
   "description": "SPK frontend workshop: TypeScript warm-up",
   "scripts": {
     "hello": "tsc && node dist/1-hello.js",
+    "functions": "tsc && node dist/2-functions.js",
     "dev": "tsc --watch --preserveWatchOutput"
   },
   "devDependencies": {
