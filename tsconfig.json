@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        // Which JavaScript version to write. "dom" gives us console.log.
+        "target": "es2022",
+        "lib": ["es2022", "dom"],
+
+        // Every file is its own module, so names in one file never clash with names in another file.
+        "module": "nodenext",
+        "moduleDetection": "force",
+
+        // Read the .ts files in src/, write the .js files to dist/ (that is what node runs).
+        "rootDir": "src",
+        "outDir": "dist",
+
+        // All strict checks on: no implicit any, null is not a valid value for every type, and more.
+        "strict": true
+    },
+    "include": ["src"]
+}

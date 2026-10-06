@@ -1,86 +1,66 @@
-# Demo 100-5: The DOM and Events (Student Handout)
+# Demo 101-0a: Hello, TypeScript (Student Handout)
 
 ## Goal
 
-Make the restaurant page interactive with JavaScript. You will:
+Write and run your first TypeScript file. You will:
 
-- write the theme toggle yourself (in demo 100-3 it was provided)
-- build an order with "Add" buttons, a live item list and a total
+- compile a `.ts` file to JavaScript and run it with Node
+- see that TypeScript knows the types of your variables without you writing them
+- read your first TypeScript errors
 
-The DOM (Document Object Model) is the browser's tree of objects for the HTML. JavaScript reads and changes
-that tree, and the browser updates the page.
+TypeScript is JavaScript with types. Node and the browser cannot run TypeScript: the compiler (`tsc`) checks your
+code, then writes plain JavaScript to `dist/`.
 
 ## Setup
 
-1. Make sure you are on the branch `100-5-js-dom-start`.
-2. Open `index.html` in your browser. Click "Toggle theme" and the "Add" buttons: nothing happens yet.
-3. Open DevTools (F12 or Cmd+Option+I). Keep the **Console** and the **Elements** tabs close by.
-4. You only edit `index.js`. `menu.js` is provided: it has `menu`, `getTotal` and `findById` from demo 100-4.
-5. After each change, save and reload the page.
+1. Install Node.js (version 20 or newer) if you don't have it: `node -v` in a terminal.
+2. Make sure you are on the branch `101-0a-ts-hello-start`.
+3. In the project folder, run `npm install` (once).
+4. Open `src/1-hello.ts`. Run it with `npm run hello`.
 
-## Part 1: Explore the DOM in the Console (10 min)
+`npm run hello` runs `tsc` and then `node dist/1-hello.js`. If `tsc` finds an error, your code does **not** run.
 
-Type each line in the Console. Write your prediction **before** you press Enter.
+## Tasks
 
-| # | Type this | My prediction | What happened |
+Follow the `TODO` comments in `src/1-hello.ts`.
+
+| # | Task | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | `document.querySelector('h1')` | | |
-| 2 | `document.querySelector('h1').textContent = 'Hello from JS'` | | |
-| 3 | `document.querySelectorAll('.add-button').length` | | |
-| 4 | `document.querySelector('.add-button').dataset.id` and its `typeof` | | |
-| 5 | `document.querySelector('#nope')` | | |
-| 6 | `document.querySelector('#nope').textContent` | | |
-| 7 | `document.documentElement.dataset.theme = 'dark'` | | |
-| 8 | `document.querySelector('li').classList.toggle('in-order')` (run it twice) | | |
-| 9 | In Elements, select an element, then type `$0` in the Console | | |
-| 10 | Reload the page. Are your changes from 2, 7 and 8 still there? | | |
-
-## Part 2: Make the page interactive
-
-Find the `TODO` comments in `index.js`.
-
-| # | Task | Concept | Done |
-| --- | --- | --- | --- |
-| 1 | The theme button switches light / dark | `querySelector`, `addEventListener`, `dataset` | |
-| 2 | Select the order elements | `querySelector`, `const` | |
-| 3 | `renderOrder()` shows count, items and total | `textContent`, `map`, `join` | |
-| 4 | "Add" buttons add the dish to the order | `querySelectorAll`, `forEach`, `event.currentTarget`, `closest`, `classList` | |
-| 5 | "Clear order" empties the order | Removing classes from many elements | |
-| 6 | Bonus: disable "Clear order" when the order is empty | `disabled` property | |
-| 7 | Bonus: show "Add (2)" on the buttons | `filter`, updating many elements | |
+| 1 | Print "Hello from TypeScript!" | | |
+| 2 | Compare `dist/1-hello.js` with `src/1-hello.ts`. What changed? | | |
+| 3 | Hover over the four variables. What type does each one have? | | |
+| 4 | Print one sentence that uses all four variables | | |
+| 5a | `freeTables = 'twelve'` | Error / OK | |
+| 5b | `restaurant = 'Burger Palace'` | Error / OK | |
+| 5c | `dishes.push(42)` | Error / OK | |
+| 5d | `restaurant.toUppercase()` | Error / OK | |
+| 5e | `isOpen + 1` | Error / OK | |
+| 5f | `dishes[0] * 2` | Error / OK | |
+| 6a | `dishOfTheDay = 42` without a type | Error / OK | |
+| 6b | `dishOfTheDay = 42` with `: string` | Error / OK | |
 
 ## Checklist
 
-- [ ] The theme button switches between light and dark, also if my OS is in dark mode
-- [ ] Adding Pizza and Sushi shows: 2 items, "Pizza, Sushi", 388 kr
-- [ ] Dishes in the order are highlighted in the list
-- [ ] "Clear order" resets the count, the items, the total and the highlights
-- [ ] There are no red errors in the Console
-- [ ] I only change the page inside `renderOrder()` (and the highlight class)
-- [ ] I can explain every line I wrote
+- [ ] `npm run hello` prints my hello message and my sentence
+- [ ] I read at least three error messages and can say what each one means
+- [ ] All the "break it" lines are commented out again
+- [ ] I can explain the difference between `src/` and `dist/`
 
 ## Questions to answer
 
-1. What does `querySelector` return when nothing matches? What happens if you then use `.textContent`?
-2. What is the difference between `querySelector` and `querySelectorAll`? What does `querySelectorAll` return?
-3. What type is `button.dataset.id`? Why did `findById` from demo 100-4 need to handle that?
-4. Why is `renderOrder()` one function, called after every change, instead of updating the page in each listener?
-5. Why use `textContent` and not `innerHTML` to show text? (Hint: what if a dish name contained `<img onerror=...>`?)
-6. The `<script>` tags are at the end of `<body>`. What would happen if they were in `<head>`?
+1. What does `npm run hello` do, step by step?
+2. Which of the lines in TODO 5 would plain JavaScript run without complaining? What would it print?
+3. The type of `restaurant` is `"SPK Bistro"`, not `string`. Why? (Hint: `const`.)
+4. When do you need to write a type yourself, and when can you let TypeScript guess?
 
-## Challenges (if you finish early)
+## Challenges
 
-- Change the theme button's text to "🌙 Dark" or "☀️ Light", depending on the current theme.
-- Add a "Remove" button to the order section that removes the last dish.
-- Replace the 7 listeners of TODO 4 with **one** listener on `#menu-list`. Use `event.target.closest('.add-button')`.
-  This is called event delegation.
-- Log `event` in a listener and explore it in the Console: `target`, `currentTarget`, `type`, `timeStamp`.
+- Add a variable `price` with a decimal number, and print it with two decimals (`toFixed`).
+- Create an empty array: `const orders = [];`. Hover over it. Then write `const orders: string[] = [];`. What changed?
+- Run `npm run dev` in a second terminal. Now break something and save. What happens?
 
-## Useful links
+## Links
 
-- [MDN: Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
-- [MDN: querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
-- [MDN: addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
-- [MDN: Using data attributes](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Solve_HTML_problems/Use_data_attributes)
-- [MDN: Element.classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList)
-- [javascript.info: Document](https://javascript.info/document)
+- [TypeScript for JavaScript programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+- [Everyday types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
+- [TypeScript playground](https://www.typescriptlang.org/play)

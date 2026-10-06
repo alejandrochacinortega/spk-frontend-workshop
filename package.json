@@ -1,0 +1,14 @@
+{
+  "name": "spk-frontend-workshop",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SPK frontend workshop: TypeScript warm-up",
+  "scripts": {
+    "hello": "tsc && node dist/1-hello.js",
+    "dev": "tsc --watch --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
