@@ -7,6 +7,7 @@
   "scripts": {
     "hello": "tsc && node dist/1-hello.js",
     "functions": "tsc && node dist/2-functions.js",
+    "objects": "tsc && node dist/3-objects.js",
     "dev": "tsc --watch --preserveWatchOutput"
   },
   "devDependencies": {
