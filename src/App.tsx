@@ -1,44 +1,41 @@
 /* ==========================================================
-   DEMO 102-0: HELLO, REACT
+   DEMO 102-0: HELLO, REACT (solution)
    Start it with:  npm run dev
-   Keep it running. Every time you save, the browser updates by itself.
    ========================================================== */
 
-// TODO 1: Change the text in <h1> to "Hello, <your name>!" and save. Look at the browser.
+// TODO 2 + 4: A component is a function that returns what to show.
+//             Its name starts with a capital letter. Hover: it returns JSX.Element.
+function Welcome() {
+    const restaurant = 'SPK Bistro';
 
+    return (
+        <p className="card">
+            Welcome to {restaurant}! 2 + 3 = {2 + 3}. The time is {new Date().toLocaleTimeString()}.
+        </p>
+    );
+}
 
-// TODO 2: Make your first component. A component is a function that returns what to show.
-//         Write it here, above App. The name MUST start with a capital letter:
-//
-//             function Welcome() {
-//                 return <p className="card">Welcome to SPK Bistro!</p>;
-//             }
-//
-//         Then show it: write <Welcome /> inside <main>, under the <h1>.
-//         Hover over the name Welcome. What does TypeScript say the function returns?
-
-
-// TODO 3: Write <Welcome /> three times. A component can be used again and again.
-
-
-// TODO 4: Show a JavaScript value inside JSX with curly braces { }.
-//         Add  const restaurant = 'SPK Bistro';  inside Welcome (before return),
-//         and change the text to:  Welcome to {restaurant}!
-//         Then try  {2 + 3}  and  {new Date().toLocaleTimeString()}  too.
-
-
-// TODO 5: Break it on purpose. Do ONE change at a time, read the red line, then undo it.
-//         a) Write <welcome /> with a small w.
-//         b) Write class="card" instead of className="card".
-//         c) In App, put a second <h1> AFTER </main> (two things next to each other in return).
-//         d) Write <br> (without the / ) somewhere inside <main>.
-
+// TODO 5 (all are errors):
+//   a) <welcome />        TS2339: Property 'welcome' does not exist on type 'JSX.IntrinsicElements'.
+//                         Small letter = an HTML tag. Capital letter = your component.
+//   b) class="card"       TS2322: Property 'class' does not exist... Did you mean 'className'?
+//                         (class is a reserved word in JavaScript)
+//   c) two elements       "JSX expressions must have one parent element."
+//                         A function returns ONE value: wrap them in <main> or <>...</>.
+//   d) <br>               "JSX element 'br' has no corresponding closing tag."
+//                         In JSX every tag must be closed: <br />, <img />.
 
 // App is the main component. main.tsx draws it inside <div id="root"> in index.html.
 function App() {
     return (
         <main>
-            <h1>Hello, React!</h1>
+            {/* TODO 1 */}
+            <h1>Hello, Alejandro!</h1>
+
+            {/* TODO 3: one component, used three times */}
+            <Welcome />
+            <Welcome />
+            <Welcome />
         </main>
     );
 }
