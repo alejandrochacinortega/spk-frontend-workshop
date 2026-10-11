@@ -2,12 +2,22 @@
   "name": "spk-frontend-workshop",
   "version": "1.0.0",
   "private": true,
-  "description": "SPK frontend workshop: TypeScript demos",
+  "type": "module",
+  "description": "SPK frontend workshop: React + TypeScript",
   "scripts": {
-    "dev": "tsc --watch --preserveWatchOutput",
-    "build": "tsc"
+    "dev": "vite --open",
+    "build": "tsc --noEmit && vite build",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "typescript": "^7.0.2"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
   }
 }

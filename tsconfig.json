@@ -1,17 +1,21 @@
 {
     "compilerOptions": {
-        // Which JavaScript version to write, and which built-in types exist (DOM = browser APIs).
+        // Which JavaScript version to write, and which browser APIs (document, window...) exist.
         "target": "es2022",
         "lib": ["es2022", "dom", "dom.iterable"],
 
-        // Read the .ts files in src/, write the .js files to dist/ (index.html loads dist/).
-        "rootDir": "src",
-        "outDir": "dist",
+        // Vite bundles the files, so TypeScript only checks them.
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "noEmit": true,
 
-        // .map files let DevTools show your .ts code instead of the generated .js.
-        "sourceMap": true,
+        // Tells TypeScript about Vite extras, like importing a .css file.
+        "types": ["vite/client"],
 
-        // All strict checks on: no implicit any, null is not a valid value for every type, and more.
+        // Lets us write <h1>...</h1> in .tsx files (JSX).
+        "jsx": "react-jsx",
+
+        // All strict checks on.
         "strict": true
     },
     "include": ["src"]
