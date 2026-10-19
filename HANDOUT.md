@@ -1,62 +1,66 @@
-# Demo 102-4: Callbacks (Student Handout)
+# Demo 102-5: Effects (Student Handout)
 
 ## Goal
 
-Put the "Add" button on each dish card. You will:
+Do something **outside** React when your data changes. You will:
 
-- give a component a **function** as a prop
-- call that function from the child component when a button is clicked
-- see how data goes down (props) and events go up (callbacks)
+- show the number of dishes in the browser tab title with `useEffect`
+- learn what the list at the end (`[order]`, `[]`) means
+- make the clock from 102-0 tick, and stop the timer again
 
-You only fill in the `TODO`s in `src/App.tsx`. All types are ready.
+You only fill in the `TODO`s in `src/App.tsx`.
 
 ## Setup
 
-1. Make sure you are on the branch `102-4-react-callbacks-start`.
+1. Make sure you are on the branch `102-5-react-effect-start`.
 2. Run `npm run dev`. Keep it running.
-3. Open `src/App.tsx`. There is **one red line on purpose**: TODO 1 explains it.
+3. Open `src/App.tsx` and the browser console (F12).
 
 ## The big idea
 
-```
-App   has the state (order)      <DishCard dish={dish} onAdd={addToOrder} />
- │                                          data down ↓      ↑ "a dish was clicked"
-DishCard   has the button         <button onClick={() => onAdd(dish)}>Add</button>
+```tsx
+useEffect(() => {
+    document.title = `(${order.length}) SPK Bistro`;   // what to do
+}, [order]);                                            // when: every time order changes
 ```
 
-`DishCard` cannot change `App`'s state itself. `App` gives it a function, and `DishCard` calls it.
+| The list at the end | The effect runs... |
+| --- | --- |
+| `[order]` | after the first draw, and again every time `order` changes |
+| `[]` | only once, after the first draw |
+| no list | after **every** draw |
 
 ## Tasks
 
 | # | Task | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | Read the new `onAdd` prop. Hover over the red line in `App` | | |
-| 2 | Write the body of `addToOrder` | | |
-| 3 | Give `onAdd={addToOrder}` to `<DishCard>` | | |
-| 4 | Call `onAdd(dish)` when the button is clicked | | |
-| 5 | Delete the "Quick order" part | | |
-| 6a | `onClick={onAdd(dish)}` without `() =>` | Error / OK | |
-| 6b | `onAdd="addToOrder"` | Error / OK | |
+| 1 | Show the number of dishes in the tab title | | |
+| 2 | `console.log` in the effect. Click "Add", then "+1 guest" | Runs on "+1 guest"? Yes / No | |
+| 3 | Make the clock tick with `setInterval` | | |
+| 4a | Delete `[order]`, click "+1 guest" | | |
+| 4b | Change `[order]` to `[]`, add dishes | | |
 
 ## Checklist
 
-- [ ] Every card has an "Add" button that adds the dish to the order
-- [ ] There are no red lines (`npm run check` shows no errors)
-- [ ] I can explain why the state lives in `App` and not in `DishCard`
+- [ ] The tab title shows `(2) SPK Bistro` after I add two dishes
+- [ ] The effect does not run when I click "+1 guest"
+- [ ] The clock ticks every second
+- [ ] I can say what `[order]` and `[]` mean
 
 ## Questions to answer
 
-1. Why do we write `onAdd={addToOrder}` and not `onAdd={addToOrder()}`?
-2. In 6a, why is `() =>` needed in `onClick={() => onAdd(dish)}`?
-3. Data goes down with props. How does information go up?
+1. Why not just write `document.title = ...` directly in `App`, without `useEffect`?
+2. What does the `return () => clearInterval(id)` in the clock do? When does it run?
+3. The clock has its own state. When it ticks, does `App` draw again? (Hint: the console.)
 
 ## Challenges
 
-- Move "Your order" into its own component `OrderList`, with the props
-  `type OrderListProps = { order: Dish[]; onClear: () => void };`
-- Give `DishCard` a second callback: `onRemove`, with a "Remove" button that removes one of that dish from the order.
+- Save the order in the browser: an effect with `[order]` that runs
+  `localStorage.setItem('spk-order', JSON.stringify(order));`. Look in DevTools → Application → Local Storage.
+- Add a "Hide clock" button with `const [showClock, setShowClock] = useState(true);` and `{showClock && <Clock />}`.
+  Put `console.log('timer stopped')` in the clean-up function and click the button.
 
 ## Links
 
-- [Responding to events (react.dev)](https://react.dev/learn/responding-to-events)
-- [Sharing state between components](https://react.dev/learn/sharing-state-between-components)
+- [Synchronizing with effects (react.dev)](https://react.dev/learn/synchronizing-with-effects)
+- [You might not need an effect](https://react.dev/learn/you-might-not-need-an-effect)

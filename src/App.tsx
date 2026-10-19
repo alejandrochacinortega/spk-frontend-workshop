@@ -1,10 +1,10 @@
 /* ==========================================================
-   DEMO 102-4: CALLBACKS (solution)
+   DEMO 102-5: EFFECTS
    Start it with:  npm run dev
-   The order lives in App. The "Add" button lives in DishCard.
-   How can DishCard change App's state? App gives DishCard a function.
+   useEffect runs code AFTER React has drawn the page.
+   Use it to do things outside React: the browser tab title, a timer...
    ========================================================== */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dishes, getTotal, type Dish } from './data';
 
 // ---------- Header ----------
@@ -17,7 +17,7 @@ function Header({ title }: HeaderProps) {
 }
 
 // ---------- DishCard ----------
-// TODO 1: onAdd is a function that gets a dish. Without it: TS2741 Property 'onAdd' is missing.
+// onAdd is a function that gets a dish (from 102-4).
 type DishCardProps = {
     dish: Dish;
     onAdd: (dish: Dish) => void;
@@ -29,25 +29,50 @@ function DishCard({ dish, onAdd }: DishCardProps) {
             <span className="emoji">{dish.emoji}</span>
             <strong>{dish.name}</strong>
             <span className="price">{dish.price} kr</span>
-            {/* TODO 4: tell App which dish was clicked */}
             <button onClick={() => onAdd(dish)}>Add</button>
         </li>
     );
 }
 
+// ---------- Clock ----------
+// TODO 3: Make the clock tick. In 102-0 the time only changed when you saved. Now we fix that.
+//         Under the useState line in Clock, write:
+//
+//             useEffect(() => {
+//                 const id = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
+//                 return () => clearInterval(id);
+//             }, []);
+//
+//         setInterval  runs the code every 1000 ms (every second).
+//         []           = run the effect only ONCE, when Clock is shown for the first time.
+//         return ...   = clean up: stop the timer when Clock is removed from the page.
+function Clock() {
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+    return <p className="clock">🕒 {time}</p>;
+}
+
 // ---------- App ----------
-// TODO 6 (break it):
-//   a) onClick={onAdd(dish)}   TS2322: Type 'void' is not assignable to type 'MouseEventHandler<HTMLButtonElement>'.
-//                              It CALLS onAdd while drawing, not on click. That changes state, which draws again,
-//                              which calls onAdd again... The console says "Too many re-renders".
-//                              () => onAdd(dish) is a function that calls onAdd LATER, on click.
-//   b) onAdd="addToOrder"      TS2322: Type 'string' is not assignable to type '(dish: Dish) => void'.
+// TODO 1: Show the number of dishes in the browser tab title. In App, under addToOrder, write:
+//
+//             useEffect(() => {
+//                 document.title = `(${order.length}) SPK Bistro`;
+//             }, [order]);
+//
+//         Add some dishes and look at the browser tab.
+//         [order] = run the effect again every time `order` changes.
+
+// TODO 2: Put  console.log('effect ran');  inside your effect from TODO 1. Open the console (F12).
+//         Click "Add" on a dish. Then click "+1 guest". When does the effect run? When not?
+
+// TODO 4: Break it on purpose. Do ONE change at a time, look at the console and the tab title, then undo it.
+//         a) Delete  [order]  (and the comma before it). Click "+1 guest" a few times.
+//         b) Change  [order]  to  []. Add some dishes.
 
 function App() {
     const [guests, setGuests] = useState(0);
     const [order, setOrder] = useState<Dish[]>([]);
 
-    // TODO 2: App owns the order, so App decides how to change it
     function addToOrder(dish: Dish) {
         setOrder([...order, dish]);
     }
@@ -55,6 +80,7 @@ function App() {
     return (
         <main>
             <Header title="SPK Bistro" />
+            <Clock />
 
             <h2>Guests today</h2>
             <p>{guests} guests</p>
@@ -65,13 +91,10 @@ function App() {
 
             <h2>Menu</h2>
             <ul className="menu">
-                {/* TODO 3: data down (dish), function down (onAdd) */}
                 {dishes.map((dish) => (
                     <DishCard key={dish.id} dish={dish} onAdd={addToOrder} />
                 ))}
             </ul>
-
-            {/* TODO 5: the Quick order part is deleted */}
 
             <h2>Your order</h2>
             <ul className="order">
