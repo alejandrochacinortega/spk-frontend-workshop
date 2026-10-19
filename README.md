@@ -16,3 +16,11 @@ You only edit files in `src/`. `npm run check` runs the TypeScript checker on al
 | Branch | File | Topic |
 | --- | --- | --- |
 | `102-0-react-hello-start` | `src/App.tsx` | Your first component, JSX, `{ }` |
+| `102-1-react-lists-start` | `src/App.tsx` | Show a list with `.map()` and `key` |
+| `102-2-react-props-start` | `src/App.tsx` | Props: give data to a component |
+| `102-3-react-state-start` | `src/App.tsx` | `useState` and `onClick` |
+| `102-4-react-callbacks-start` | `src/App.tsx` | Pass a function as a prop |
+| `102-5-react-effect-start` | `src/App.tsx` | `useEffect` |
+
+Each `-end` branch has the solution. In every demo, `src/data.ts` (the dishes) and all types are ready:
+you only write React code.

@@ -1,41 +1,58 @@
 /* ==========================================================
-   DEMO 102-0: HELLO, REACT (solution)
+   DEMO 102-1: LISTS
    Start it with:  npm run dev
+   You work in this file only. The dishes are in data.ts (just read it).
    ========================================================== */
+import { dishes } from './data';
 
-// TODO 2 + 4: A component is a function that returns what to show.
-//             Its name starts with a capital letter. Hover: it returns JSX.Element.
-function Welcome() {
-    const restaurant = 'SPK Bistro';
+// TODO 1: Hover over the word `dishes` in the import above. What is it?
+//         Open data.ts and look at the four dishes.
 
-    return (
-        <p className="card">
-            Welcome to {restaurant}! 2 + 3 = {2 + 3}. The time is {new Date().toLocaleTimeString()}.
-        </p>
-    );
-}
 
-// TODO 5 (all are errors):
-//   a) <welcome />        TS2339: Property 'welcome' does not exist on type 'JSX.IntrinsicElements'.
-//                         Small letter = an HTML tag. Capital letter = your component.
-//   b) class="card"       TS2322: Property 'class' does not exist... Did you mean 'className'?
-//                         (class is a reserved word in JavaScript)
-//   c) two elements       "JSX expressions must have one parent element."
-//                         A function returns ONE value: wrap them in <main> or <>...</>.
-//   d) <br>               "JSX element 'br' has no corresponding closing tag."
-//                         In JSX every tag must be closed: <br />, <img />.
+// TODO 2: Show ONE dish by hand. Inside <ul className="menu"> below, write:
+//
+//             <li>{dishes[0].name}</li>
+//
+//         Then add a second line for dishes[1]. Imagine doing this for 100 dishes...
 
-// App is the main component. main.tsx draws it inside <div id="root"> in index.html.
+
+// TODO 3: Show ALL dishes with .map(). Delete your two <li> lines and write:
+//
+//             {dishes.map((dish) => <li>{dish.name}</li>)}
+//
+//         .map() turns every dish into an <li>. React shows the whole list.
+
+
+// TODO 4: Open the browser console (F12 or Cmd+Option+J). Read the warning about "key".
+//         React needs a unique key on every item in a list. Change <li> to:
+//
+//             <li key={dish.id}>
+//
+//         Reload the page. The warning is gone.
+
+
+// TODO 5: Show more about each dish:  {dish.emoji} {dish.name}: {dish.price} kr
+
+
+// TODO 6: Show how many dishes there are. Under the <h2>, write:  <p>{dishes.length} dishes</p>
+//         Then add a fifth dish in data.ts and watch the page.
+
+
+// TODO 7: Break it on purpose. Do ONE change at a time, look, then undo it.
+//         a) Write  dish.nmae  instead of  dish.name
+//         b) Add curly braces:  dishes.map((dish) => { <li key={dish.id}>{dish.name}</li> })
+//            Where did the list go?
+
+
 function App() {
     return (
         <main>
-            {/* TODO 1 */}
-            <h1>Hello, Alejandro!</h1>
+            <h1>SPK Bistro</h1>
 
-            {/* TODO 3: one component, used three times */}
-            <Welcome />
-            <Welcome />
-            <Welcome />
+            <h2>Menu</h2>
+            <ul className="menu">
+                {/* Your dishes go here */}
+            </ul>
         </main>
     );
 }
