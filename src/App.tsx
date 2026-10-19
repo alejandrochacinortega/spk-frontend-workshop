@@ -1,30 +1,26 @@
 /* ==========================================================
-   DEMO 102-2: PROPS (solution)
+   DEMO 102-3: STATE
    Start it with:  npm run dev
-   Props are how you give data to a component, like arguments to a function.
-   All the types are ready. You only fill in the TODOs.
+   State is data that can change. When state changes, React draws the page again.
    ========================================================== */
-import { dishes, type Dish } from './data';
+import { useState } from 'react';
+import { dishes, getTotal, type Dish } from './data';
 
-// ---------- Header ----------
-// HeaderProps says: <Header> must get a `title`, and it is a string.
+// ---------- Header (from 102-2) ----------
 type HeaderProps = {
     title: string;
 };
 
 function Header({ title }: HeaderProps) {
-    // TODO 1
     return <h1>{title}</h1>;
 }
 
-// ---------- DishCard ----------
-// DishCardProps says: <DishCard> must get a `dish`.
+// ---------- DishCard (from 102-2) ----------
 type DishCardProps = {
     dish: Dish;
 };
 
 function DishCard({ dish }: DishCardProps) {
-    // TODO 3
     return (
         <li className="card">
             <span className="emoji">{dish.emoji}</span>
@@ -35,26 +31,80 @@ function DishCard({ dish }: DishCardProps) {
 }
 
 // ---------- App ----------
-// TODO 5 (all are errors, TypeScript checks the props for you):
-//   a) <Header />                  TS2741: Property 'title' is missing in type '{}' but required in type 'HeaderProps'.
-//   b) <Header title={42} />       TS2322: Type 'number' is not assignable to type 'string'.
-//   c) <DishCard key={dish.id} />  TS2741: Property 'dish' is missing ... but required in type 'DishCardProps'.
+// TODO 1: A guest counter. At the top of App (before return), write:
+//
+//             const [guests, setGuests] = useState(0);
+//
+//         guests     = the value now (starts at 0)
+//         setGuests  = the function that changes it
+//         Then replace ??? in "??? guests" with {guests}.
+
+// TODO 2: Make the buttons work. Add onClick to them:
+//
+//             <button onClick={() => setGuests(guests + 1)}>+1 guest</button>
+//             <button onClick={() => setGuests(0)}>Reset</button>
+
+// TODO 3: The order. Uncomment the line in App:  const [order, setOrder] = useState<Dish[]>([]);
+//         order starts as an empty list of dishes.
+
+// TODO 4: Make the "Quick order" buttons work. Add this to the <button> inside .map():
+//
+//             onClick={() => setOrder([...order, dish])}
+//
+//         [...order, dish] = a NEW list with all the old dishes, plus this one.
+
+// TODO 5: Show the order. Inside <ul className="order">, write:
+//
+//             {order.map((dish, index) => <li key={index}>{dish.emoji} {dish.name}</li>)}
+//
+//         (The same dish can be in the order twice, so we use the position as key.)
+//         Then replace ??? in "Total: ??? kr" with {getTotal(order)}.
+
+// TODO 6: Make "Clear order" work: onClick={() => setOrder([])}
+
+// TODO 7: Break it on purpose. Do ONE change at a time, then undo it.
+//         a) Replace the guests line with  let guests = 0;
+//            and the +1 button with  onClick={() => { guests = guests + 1; console.log(guests); }}
+//            Click and look at the console AND at the page. What is different?
+//         b) Change a Quick order button to  onClick={() => order.push(dish)}
+//            Click it. Does the order update?
 
 function App() {
+    // const [order, setOrder] = useState<Dish[]>([]);
+
     return (
         <main>
-            {/* TODO 2 */}
             <Header title="SPK Bistro" />
 
-            <h2>Menu</h2>
-            <p>{dishes.length} dishes</p>
+            <h2>Guests today</h2>
+            <p>??? guests</p>
+            <div className="buttons">
+                <button>+1 guest</button>
+                <button>Reset</button>
+            </div>
 
+            <h2>Menu</h2>
             <ul className="menu">
-                {/* TODO 4: App gives each dish to DishCard as a prop */}
                 {dishes.map((dish) => (
                     <DishCard key={dish.id} dish={dish} />
                 ))}
             </ul>
+
+            <h2>Quick order</h2>
+            <div className="buttons">
+                {dishes.map((dish) => (
+                    <button key={dish.id}>
+                        + {dish.name}
+                    </button>
+                ))}
+            </div>
+
+            <h2>Your order</h2>
+            <ul className="order">
+                {/* TODO 5 */}
+            </ul>
+            <p className="total">Total: ??? kr</p>
+            <button>Clear order</button>
         </main>
     );
 }

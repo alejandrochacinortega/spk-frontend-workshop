@@ -1,63 +1,65 @@
-# Demo 102-2: Props (Student Handout)
+# Demo 102-3: State (Student Handout)
 
 ## Goal
 
-Give data to a component. You will:
+Make the page react when you click. You will:
 
-- show a prop inside a component: `{title}`
-- give a prop to a component: `<Header title="SPK Bistro" />`
-- move each dish into its own `DishCard` component
+- create state with `useState`
+- change state with a button and `onClick`
+- see that React draws the page again every time state changes
+- build an order list with a total
 
-All types are ready. You only fill in the `TODO`s in `src/App.tsx`.
+You only fill in the `TODO`s in `src/App.tsx`. All the HTML is already there.
 
 ## Setup
 
-1. Make sure you are on the branch `102-2-react-props-start`.
+1. Make sure you are on the branch `102-3-react-state-start`.
 2. Run `npm run dev`. Keep it running.
 3. Open `src/App.tsx`.
 
 ## The big idea
 
-Props work like function arguments:
-
 ```tsx
-// Give a prop:                 Use the prop:
-<Header title="SPK Bistro" />   function Header({ title }: HeaderProps) {
-                                    return <h1>{title}</h1>;
-                                }
+const [guests, setGuests] = useState(0);
+//     value   change it       start value
+
+<button onClick={() => setGuests(guests + 1)}>+1 guest</button>
 ```
 
-`HeaderProps` is already written for you. It says which props `Header` needs.
+Never change state directly. Always use the `set` function: then React knows it must draw the page again.
 
 ## Tasks
 
 | # | Task | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | Show `{title}` in `Header` | | |
-| 2 | Use `<Header title="SPK Bistro" />` in `App`, then try another title | | |
-| 3 | Show emoji, name and price in `DishCard` | | |
-| 4 | Use `<DishCard key={dish.id} dish={dish} />` inside `.map()` | | |
-| 5a | `<Header />` | Error / OK | |
-| 5b | `<Header title={42} />` | Error / OK | |
-| 5c | `<DishCard key={dish.id} />` | Error / OK | |
+| 1 | Create `guests` with `useState(0)` and show it | | |
+| 2 | Make "+1 guest" and "Reset" work | | |
+| 3 | Uncomment the `order` state | | |
+| 4 | Make the "Quick order" buttons add a dish | | |
+| 5 | Show the order list and the total | | |
+| 6 | Make "Clear order" work | | |
+| 7a | A normal `let guests` instead of state | Page updates? Yes / No | |
+| 7b | `order.push(dish)` instead of `setOrder` | Page updates? Yes / No | |
 
 ## Checklist
 
-- [ ] The heading comes from the `Header` component
-- [ ] Every dish is shown as a card
-- [ ] I can say what a prop is in one sentence
+- [ ] The guest counter goes up and back to 0
+- [ ] Clicking "+ Pizza" adds Pizza to the order, and the total goes up
+- [ ] "Clear order" empties the order
+- [ ] I can explain why `let guests = 0` does not work
 
 ## Questions to answer
 
-1. Why is `"SPK Bistro"` in quotes, but `{dish}` in curly braces?
-2. `App` has the data. `DishCard` shows it. Which way does the data go?
-3. How did TypeScript help you in task 5?
+1. What are the two things `useState` gives you back?
+2. What happens on the page when you call `setGuests`?
+3. Why do we write `setOrder([...order, dish])` and not `order.push(dish)`?
 
 ## Challenges
 
-- Add a `subtitle` prop to `Header`: add `subtitle: string;` to `HeaderProps`, and show it in a `<p>`.
-- Use `<Header />` twice with different titles.
+- Add a "-1 guest" button. Can the number go below 0? Can you stop that?
+- Show "No dishes yet" when the order is empty: `{order.length === 0 && <p>No dishes yet</p>}`
 
 ## Links
 
-- [Passing props to a component (react.dev)](https://react.dev/learn/passing-props-to-a-component)
+- [State: a component's memory (react.dev)](https://react.dev/learn/state-a-components-memory)
+- [Updating arrays in state](https://react.dev/learn/updating-arrays-in-state)
