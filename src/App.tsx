@@ -1,5 +1,5 @@
 /* ==========================================================
-   DEMO 102-3: STATE
+   DEMO 102-3: STATE (solution)
    Start it with:  npm run dev
    State is data that can change. When state changes, React draws the page again.
    ========================================================== */
@@ -31,56 +31,30 @@ function DishCard({ dish }: DishCardProps) {
 }
 
 // ---------- App ----------
-// TODO 1: A guest counter. At the top of App (before return), write:
-//
-//             const [guests, setGuests] = useState(0);
-//
-//         guests     = the value now (starts at 0)
-//         setGuests  = the function that changes it
-//         Then replace ??? in "??? guests" with {guests}.
-
-// TODO 2: Make the buttons work. Add onClick to them:
-//
-//             <button onClick={() => setGuests(guests + 1)}>+1 guest</button>
-//             <button onClick={() => setGuests(0)}>Reset</button>
-
-// TODO 3: The order. Uncomment the line in App:  const [order, setOrder] = useState<Dish[]>([]);
-//         order starts as an empty list of dishes.
-
-// TODO 4: Make the "Quick order" buttons work. Add this to the <button> inside .map():
-//
-//             onClick={() => setOrder([...order, dish])}
-//
-//         [...order, dish] = a NEW list with all the old dishes, plus this one.
-
-// TODO 5: Show the order. Inside <ul className="order">, write:
-//
-//             {order.map((dish, index) => <li key={index}>{dish.emoji} {dish.name}</li>)}
-//
-//         (The same dish can be in the order twice, so we use the position as key.)
-//         Then replace ??? in "Total: ??? kr" with {getTotal(order)}.
-
-// TODO 6: Make "Clear order" work: onClick={() => setOrder([])}
-
-// TODO 7: Break it on purpose. Do ONE change at a time, then undo it.
-//         a) Replace the guests line with  let guests = 0;
-//            and the +1 button with  onClick={() => { guests = guests + 1; console.log(guests); }}
-//            Click and look at the console AND at the page. What is different?
-//         b) Change a Quick order button to  onClick={() => order.push(dish)}
-//            Click it. Does the order update?
+// TODO 7 (break it):
+//   a) let guests = 0     The console counts 1, 2, 3... but the page stays at 0.
+//                         React does not know a normal variable changed, so it does not draw again.
+//                         (And on every draw, `let guests = 0` starts at 0 again.)
+//   b) order.push(dish)   Nothing happens on the page. push changes the old list, React sees
+//                         the same list and does not draw again. Use setOrder([...order, dish]).
 
 function App() {
-    // const [order, setOrder] = useState<Dish[]>([]);
+    // TODO 1: guests = the value now, setGuests = the function that changes it
+    const [guests, setGuests] = useState(0);
+
+    // TODO 3: the order starts as an empty list of dishes
+    const [order, setOrder] = useState<Dish[]>([]);
 
     return (
         <main>
             <Header title="SPK Bistro" />
 
             <h2>Guests today</h2>
-            <p>??? guests</p>
+            <p>{guests} guests</p>
             <div className="buttons">
-                <button>+1 guest</button>
-                <button>Reset</button>
+                {/* TODO 2 */}
+                <button onClick={() => setGuests(guests + 1)}>+1 guest</button>
+                <button onClick={() => setGuests(0)}>Reset</button>
             </div>
 
             <h2>Menu</h2>
@@ -93,7 +67,8 @@ function App() {
             <h2>Quick order</h2>
             <div className="buttons">
                 {dishes.map((dish) => (
-                    <button key={dish.id}>
+                    // TODO 4: a NEW list with the old dishes, plus this one
+                    <button key={dish.id} onClick={() => setOrder([...order, dish])}>
                         + {dish.name}
                     </button>
                 ))}
@@ -101,10 +76,16 @@ function App() {
 
             <h2>Your order</h2>
             <ul className="order">
-                {/* TODO 5 */}
+                {/* TODO 5: the same dish can be there twice, so the position is the key */}
+                {order.map((dish, index) => (
+                    <li key={index}>
+                        {dish.emoji} {dish.name}
+                    </li>
+                ))}
             </ul>
-            <p className="total">Total: ??? kr</p>
-            <button>Clear order</button>
+            <p className="total">Total: {getTotal(order)} kr</p>
+            {/* TODO 6 */}
+            <button onClick={() => setOrder([])}>Clear order</button>
         </main>
     );
 }
