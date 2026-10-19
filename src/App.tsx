@@ -1,5 +1,5 @@
 /* ==========================================================
-   DEMO 102-5: EFFECTS
+   DEMO 102-5: EFFECTS (solution)
    Start it with:  npm run dev
    useEffect runs code AFTER React has drawn the page.
    Use it to do things outside React: the browser tab title, a timer...
@@ -35,39 +35,26 @@ function DishCard({ dish, onAdd }: DishCardProps) {
 }
 
 // ---------- Clock ----------
-// TODO 3: Make the clock tick. In 102-0 the time only changed when you saved. Now we fix that.
-//         Under the useState line in Clock, write:
-//
-//             useEffect(() => {
-//                 const id = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
-//                 return () => clearInterval(id);
-//             }, []);
-//
-//         setInterval  runs the code every 1000 ms (every second).
-//         []           = run the effect only ONCE, when Clock is shown for the first time.
-//         return ...   = clean up: stop the timer when Clock is removed from the page.
+// TODO 3: the clock ticks. Not in 102-0, because there was no state and no timer.
 function Clock() {
     const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+    useEffect(() => {
+        // every 1000 ms: new state, so React draws the clock again
+        const id = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
+
+        // clean up: stop the timer when Clock is removed from the page
+        return () => clearInterval(id);
+    }, []); // [] = start the timer only once
 
     return <p className="clock">🕒 {time}</p>;
 }
 
 // ---------- App ----------
-// TODO 1: Show the number of dishes in the browser tab title. In App, under addToOrder, write:
-//
-//             useEffect(() => {
-//                 document.title = `(${order.length}) SPK Bistro`;
-//             }, [order]);
-//
-//         Add some dishes and look at the browser tab.
-//         [order] = run the effect again every time `order` changes.
-
-// TODO 2: Put  console.log('effect ran');  inside your effect from TODO 1. Open the console (F12).
-//         Click "Add" on a dish. Then click "+1 guest". When does the effect run? When not?
-
-// TODO 4: Break it on purpose. Do ONE change at a time, look at the console and the tab title, then undo it.
-//         a) Delete  [order]  (and the comma before it). Click "+1 guest" a few times.
-//         b) Change  [order]  to  []. Add some dishes.
+// TODO 4 (break it):
+//   a) no list        'effect ran' after EVERY draw, also when you click "+1 guest" (guests changed, App draws again).
+//   b) []             The effect runs only once: the title stays "(0) SPK Bistro" when you add dishes.
+//   No TypeScript errors here: these are logic mistakes. Read the console.
 
 function App() {
     const [guests, setGuests] = useState(0);
@@ -76,6 +63,12 @@ function App() {
     function addToOrder(dish: Dish) {
         setOrder([...order, dish]);
     }
+
+    // TODO 1 + 2: after a draw, and only when `order` changed, update the tab title
+    useEffect(() => {
+        console.log('effect ran');
+        document.title = `(${order.length}) SPK Bistro`;
+    }, [order]);
 
     return (
         <main>
