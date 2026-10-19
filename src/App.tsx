@@ -1,5 +1,5 @@
 /* ==========================================================
-   DEMO 102-4: CALLBACKS (pass a function as a prop)
+   DEMO 102-4: CALLBACKS (solution)
    Start it with:  npm run dev
    The order lives in App. The "Add" button lives in DishCard.
    How can DishCard change App's state? App gives DishCard a function.
@@ -17,40 +17,39 @@ function Header({ title }: HeaderProps) {
 }
 
 // ---------- DishCard ----------
-// TODO 1: DishCard has a NEW prop: onAdd. It is a function that gets a dish.
-//         Look at App below: <DishCard> has a red line now. Hover over it. What is missing?
+// TODO 1: onAdd is a function that gets a dish. Without it: TS2741 Property 'onAdd' is missing.
 type DishCardProps = {
     dish: Dish;
     onAdd: (dish: Dish) => void;
 };
 
 function DishCard({ dish, onAdd }: DishCardProps) {
-    // TODO 4: Call onAdd when the button is clicked. Add to the <button>:
-    //
-    //             onClick={() => onAdd(dish)}
     return (
         <li className="card">
             <span className="emoji">{dish.emoji}</span>
             <strong>{dish.name}</strong>
             <span className="price">{dish.price} kr</span>
-            <button>Add</button>
+            {/* TODO 4: tell App which dish was clicked */}
+            <button onClick={() => onAdd(dish)}>Add</button>
         </li>
     );
 }
 
 // ---------- App ----------
-// TODO 6: Break it on purpose. Do ONE change at a time, then undo it.
-//         a) In DishCard, write  onClick={onAdd(dish)}  (no "() =>"). Look at the page and the console.
-//         b) In App, write  onAdd="addToOrder"  (a string, not the function).
+// TODO 6 (break it):
+//   a) onClick={onAdd(dish)}   TS2322: Type 'void' is not assignable to type 'MouseEventHandler<HTMLButtonElement>'.
+//                              It CALLS onAdd while drawing, not on click. That changes state, which draws again,
+//                              which calls onAdd again... The console says "Too many re-renders".
+//                              () => onAdd(dish) is a function that calls onAdd LATER, on click.
+//   b) onAdd="addToOrder"      TS2322: Type 'string' is not assignable to type '(dish: Dish) => void'.
 
 function App() {
     const [guests, setGuests] = useState(0);
     const [order, setOrder] = useState<Dish[]>([]);
 
-    // TODO 2: Write what happens when a dish is added. Inside the function, write:
-    //
-    //             setOrder([...order, dish]);
+    // TODO 2: App owns the order, so App decides how to change it
     function addToOrder(dish: Dish) {
+        setOrder([...order, dish]);
     }
 
     return (
@@ -66,22 +65,13 @@ function App() {
 
             <h2>Menu</h2>
             <ul className="menu">
-                {/* TODO 3: Give DishCard the function: add  onAdd={addToOrder}  to <DishCard>.
-                            The red line goes away. */}
+                {/* TODO 3: data down (dish), function down (onAdd) */}
                 {dishes.map((dish) => (
-                    <DishCard key={dish.id} dish={dish} />
+                    <DishCard key={dish.id} dish={dish} onAdd={addToOrder} />
                 ))}
             </ul>
 
-            {/* TODO 5: The "Add" buttons on the cards work now. Delete this whole Quick order part. */}
-            <h2>Quick order</h2>
-            <div className="buttons">
-                {dishes.map((dish) => (
-                    <button key={dish.id} onClick={() => setOrder([...order, dish])}>
-                        + {dish.name}
-                    </button>
-                ))}
-            </div>
+            {/* TODO 5: the Quick order part is deleted */}
 
             <h2>Your order</h2>
             <ul className="order">
