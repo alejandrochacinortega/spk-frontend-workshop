@@ -1,60 +1,63 @@
-# Demo 102-1: Lists (Student Handout)
+# Demo 102-2: Props (Student Handout)
 
 ## Goal
 
-Show a list of dishes on the page, without writing the same HTML again and again. You will:
+Give data to a component. You will:
 
-- turn an array into a list on the page with `.map()`
-- learn why React needs a `key` on every item in a list
+- show a prop inside a component: `{title}`
+- give a prop to a component: `<Header title="SPK Bistro" />`
+- move each dish into its own `DishCard` component
 
-The data and types are ready in `src/data.ts`. You only write React code in `src/App.tsx`.
+All types are ready. You only fill in the `TODO`s in `src/App.tsx`.
 
 ## Setup
 
-1. Make sure you are on the branch `102-1-react-lists-start`.
-2. Run `npm install` (once), then `npm run dev`. Keep it running.
-3. Open `src/App.tsx` and `src/data.ts`.
+1. Make sure you are on the branch `102-2-react-props-start`.
+2. Run `npm run dev`. Keep it running.
+3. Open `src/App.tsx`.
 
 ## The big idea
 
+Props work like function arguments:
+
 ```tsx
-{dishes.map((dish) => <li key={dish.id}>{dish.name}</li>)}
+// Give a prop:                 Use the prop:
+<Header title="SPK Bistro" />   function Header({ title }: HeaderProps) {
+                                    return <h1>{title}</h1>;
+                                }
 ```
 
-Read it out loud: "for every dish, make an `<li>` with the dish name". React shows all of them.
+`HeaderProps` is already written for you. It says which props `Header` needs.
 
 ## Tasks
 
-Follow the `TODO` comments in `src/App.tsx`.
-
 | # | Task | My prediction | What happened |
 | --- | --- | --- | --- |
-| 1 | Hover over `dishes`. What is it? | | |
-| 2 | Show `dishes[0].name` and `dishes[1].name` by hand | | |
-| 3 | Show all dishes with `.map()` | | |
-| 4 | Read the warning in the console, then add `key={dish.id}` | | |
-| 5 | Show emoji, name and price | | |
-| 6 | Show `{dishes.length}`, then add a fifth dish in `data.ts` | | |
-| 7a | `dish.nmae` | Error / OK | |
-| 7b | `{ }` around the `<li>` inside `.map()` | Error / OK | |
+| 1 | Show `{title}` in `Header` | | |
+| 2 | Use `<Header title="SPK Bistro" />` in `App`, then try another title | | |
+| 3 | Show emoji, name and price in `DishCard` | | |
+| 4 | Use `<DishCard key={dish.id} dish={dish} />` inside `.map()` | | |
+| 5a | `<Header />` | Error / OK | |
+| 5b | `<Header title={42} />` | Error / OK | |
+| 5c | `<DishCard key={dish.id} />` | Error / OK | |
 
 ## Checklist
 
-- [ ] The page shows all dishes with emoji, name and price
-- [ ] The console has no "key" warning
-- [ ] A new dish in `data.ts` shows up on the page without changing `App.tsx`
+- [ ] The heading comes from the `Header` component
+- [ ] Every dish is shown as a card
+- [ ] I can say what a prop is in one sentence
 
 ## Questions to answer
 
-1. What does `.map()` return?
-2. Why does React want a `key`? Why is `dish.id` a good key?
-3. In 7b, why did the list disappear? (Hint: `return`.)
+1. Why is `"SPK Bistro"` in quotes, but `{dish}` in curly braces?
+2. `App` has the data. `DishCard` shows it. Which way does the data go?
+3. How did TypeScript help you in task 5?
 
 ## Challenges
 
-- Show the cheap dishes only: `dishes.filter((dish) => dish.price < 150).map(...)`.
-- Show the price with a discount: `{dish.price * 0.9} kr`.
+- Add a `subtitle` prop to `Header`: add `subtitle: string;` to `HeaderProps`, and show it in a `<p>`.
+- Use `<Header />` twice with different titles.
 
 ## Links
 
-- [Rendering lists (react.dev)](https://react.dev/learn/rendering-lists)
+- [Passing props to a component (react.dev)](https://react.dev/learn/passing-props-to-a-component)

@@ -1,23 +1,53 @@
 /* ==========================================================
-   DEMO 102-1: LISTS (solution)
+   DEMO 102-2: PROPS
    Start it with:  npm run dev
+   Props are how you give data to a component, like arguments to a function.
+   All the types are ready. You only fill in the TODOs.
    ========================================================== */
-import { dishes } from './data';
+import { dishes, type Dish } from './data';
 
-// TODO 1: `dishes` is an array of Dish objects (Dish[]), from data.ts.
+// ---------- Header ----------
+// HeaderProps says: <Header> must get a `title`, and it is a string.
+type HeaderProps = {
+    title: string;
+};
 
-// TODO 2: By hand works, but you need one line per dish:
-//             <li>{dishes[0].name}</li>
-//             <li>{dishes[1].name}</li>
+function Header({ title }: HeaderProps) {
+    // TODO 1: Show the title. Replace ??? with {title}.
+    return <h1>???</h1>;
+}
 
-// TODO 7 (break it):
-//   a) dish.nmae   TS2339: Property 'nmae' does not exist on type 'Dish'.
-//                  TypeScript knows every dish has id, name, price and emoji.
-//   b) { }         The list is empty, and TS2322: Type 'void[]' is not assignable to type 'ReactNode'.
-//                  With { } the arrow function needs `return`.
-//                  (dish) => <li>...</li>              returns the <li>
-//                  (dish) => { <li>...</li> }          returns nothing
-//                  (dish) => { return <li>...</li>; }  returns the <li> again
+// ---------- DishCard ----------
+// DishCardProps says: <DishCard> must get a `dish`.
+type DishCardProps = {
+    dish: Dish;
+};
+
+function DishCard({ dish }: DishCardProps) {
+    // TODO 3: Replace each ??? with {dish.emoji}, {dish.name} and {dish.price}.
+    return (
+        <li className="card">
+            <span className="emoji">???</span>
+            <strong>???</strong>
+            <span className="price">??? kr</span>
+        </li>
+    );
+}
+
+// ---------- App ----------
+// TODO 2: In App, replace <h1>SPK Bistro</h1> with:  <Header title="SPK Bistro" />
+//         Then try another title. The Header component does not change, only the prop.
+
+// TODO 4: In App, replace the whole <li> inside .map() with:
+//
+//             <DishCard key={dish.id} dish={dish} />
+//
+//         Now every dish is shown by DishCard. The key stays on the outside.
+
+// TODO 5: Break it on purpose. Do ONE change at a time, read the red line, then undo it.
+//         a) <Header />                  (no title)
+//         b) <Header title={42} />       (a number, not a string)
+//         c) <DishCard key={dish.id} />  (no dish)
 
 function App() {
     return (
@@ -25,11 +55,9 @@ function App() {
             <h1>SPK Bistro</h1>
 
             <h2>Menu</h2>
-            {/* TODO 6 */}
             <p>{dishes.length} dishes</p>
 
             <ul className="menu">
-                {/* TODO 3 + 4 + 5: one <li> for every dish, with a unique key */}
                 {dishes.map((dish) => (
                     <li key={dish.id}>
                         {dish.emoji} {dish.name}: {dish.price} kr
